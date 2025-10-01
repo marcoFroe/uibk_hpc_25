@@ -1,0 +1,45 @@
+--------------------------------------------------------------------------
+By default, for Open MPI 4.0 and later, infiniband ports on a device
+are not used by default.  The intent is to use UCX for these devices.
+You can override this policy by setting the btl_openib_allow_ib MCA parameter
+to true.
+
+  Local host:              n002
+  Local adapter:           mlx4_0
+  Local port:              1
+
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------
+WARNING: There was an error initializing an OpenFabrics device.
+
+  Local host:   n002
+  Local device: mlx4_0
+--------------------------------------------------------------------------
+# OSU MPI Bandwidth Test v5.8
+# Size      Bandwidth (MB/s)
+1                       7.75
+2                      15.96
+4                      31.80
+8                      62.43
+16                    122.09
+32                    242.49
+64                    397.24
+128                   572.01
+256                   894.65
+512                  1911.94
+1024                 3620.19
+2048                 5906.22
+4096                 3145.39
+8192                 5194.31
+16384                6030.78
+32768                7668.08
+65536                8721.50
+131072               9845.45
+262144               8719.99
+524288               8666.24
+1048576              8911.28
+2097152              9104.35
+4194304              9165.46
+[n002.intern.lcc3.intra.uibk.ac.at:2696440] 1 more process has sent help message help-mpi-btl-openib.txt / ib port not selected
+[n002.intern.lcc3.intra.uibk.ac.at:2696440] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
+[n002.intern.lcc3.intra.uibk.ac.at:2696440] 1 more process has sent help message help-mpi-btl-openib.txt / error in device init

@@ -3,9 +3,9 @@
 # Execute job in the partition "lva" unless you have special requirements.
 #SBATCH --partition=lva
 # Name your job to be able to identify it later
-#SBATCH --job-name=osu_latency_results
+#SBATCH --job-name osu_bw_test
 # Redirect output stream to this file
-#SBATCH --output=x_%j_%N.out
+#SBATCH --output=%x_%j_%N.out
 # Maximum number of tasks (=processes) to start in total
 #SBATCH --ntasks=2
 # Maximum number of tasks (=processes) to start per node
@@ -14,4 +14,4 @@
 #SBATCH --exclusive
 
 module load openmpi/
-mpiexec -n $SLURM_NTASKS /bin/hostname
+mpiexec -n $SLURM_NTASKS ./benchmark/osu-micro-benchmarks-5.8/mpi/pt2pt/osu_bw
