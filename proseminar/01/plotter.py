@@ -24,7 +24,7 @@ def plot_csv(csv_file):
         subset = df_avg[df_avg['type'] == t]
         plt.plot(subset['size'], subset['bandwidth'], marker='o', label=t)
     plt.xscale('log')
-    plt.xlabel('Size')
+    plt.xlabel('Size (log)')
     plt.ylabel('Bandwidth')
     plt.title('Bandwidth vs Size')
     plt.xticks(all_sizes, labels=all_sizes, rotation=45)
@@ -39,7 +39,7 @@ def plot_csv(csv_file):
         subset = df_avg[df_avg['type'] == t]
         plt.plot(subset['size'], subset['latency'], marker='o', label=t)
     plt.xscale('log')
-    plt.xlabel('Size')
+    plt.xlabel('Size (log)')
     plt.ylabel('Latency')
     plt.title('Latency vs Size')
     plt.xticks(all_sizes, labels=all_sizes, rotation=45)

@@ -1,5 +1,4 @@
 type,size,bandwidth,latency
-diff-sock_same-node,0,0,36.66
 diff-sock_same-node,1,0.22,26.26
 diff-sock_same-node,2,0.46,27.00
 diff-sock_same-node,4,0.88,29.18
@@ -23,7 +22,6 @@ diff-sock_same-node,524288,1391.86,697.33
 diff-sock_same-node,1048576,1409.28,1028.95
 diff-sock_same-node,2097152,1396.93,1777.28
 diff-sock_same-node,4194304,1454.70,3306.80
-diff-sock_same-node,0,0,0.21
 diff-sock_same-node,1,8.11,0.25
 diff-sock_same-node,2,15.85,0.25
 diff-sock_same-node,4,32.17,0.25
@@ -47,7 +45,6 @@ diff-sock_same-node,524288,8267.40,65.24
 diff-sock_same-node,1048576,8525.13,129.25
 diff-sock_same-node,2097152,8615.08,292.11
 diff-sock_same-node,4194304,7602.15,970.58
-diff-sock_same-node,0,0,0.21
 diff-sock_same-node,1,7.92,0.25
 diff-sock_same-node,2,15.80,0.25
 diff-sock_same-node,4,31.74,0.25
@@ -71,7 +68,6 @@ diff-sock_same-node,524288,8174.52,67.53
 diff-sock_same-node,1048576,8809.45,125.85
 diff-sock_same-node,2097152,8878.02,281.12
 diff-sock_same-node,4194304,8041.49,957.60
-diff_node,0,0,43.20
 diff_node,1,0.22,50.55
 diff_node,2,0.42,67.04
 diff_node,4,0.85,26.78
@@ -95,7 +91,6 @@ diff_node,524288,1912.38,598.95
 diff_node,1048576,2041.64,813.00
 diff_node,2097152,2071.59,1278.84
 diff_node,4194304,2010.10,2441.48
-diff_node,0,0,26.07
 diff_node,1,0.20,29.71
 diff_node,2,0.42,35.69
 diff_node,4,0.82,50.91
@@ -119,7 +114,6 @@ diff_node,524288,1909.53,601.88
 diff_node,1048576,1983.81,843.41
 diff_node,2097152,2158.82,1293.54
 diff_node,4194304,1943.65,2434.17
-diff_node,0,0,31.06
 diff_node,1,0.25,51.98
 diff_node,2,0.49,46.61
 diff_node,4,1.00,34.08
@@ -143,7 +137,6 @@ diff_node,524288,1310.30,695.51
 diff_node,1048576,1374.37,929.10
 diff_node,2097152,1368.54,1516.92
 diff_node,4194304,1410.55,2882.20
-diff_cores-same_socket,0,0.21
 diff_cores-same_socket,1,7.80,0.25
 diff_cores-same_socket,2,15.48,0.25
 diff_cores-same_socket,4,30.16,0.25
@@ -167,7 +160,6 @@ diff_cores-same_socket,524288,8004.64,63.60
 diff_cores-same_socket,1048576,8563.16,123.86
 diff_cores-same_socket,2097152,8588.70,251.24
 diff_cores-same_socket,4194304,7811.21,948.30
-diff_cores-same_socket,0,0,0.21
 diff_cores-same_socket,1,8.04,0.25
 diff_cores-same_socket,2,16.21,0.25
 diff_cores-same_socket,4,31.67,0.25
@@ -191,7 +183,6 @@ diff_cores-same_socket,524288,7749.11,65.78
 diff_cores-same_socket,1048576,8323.94,127.06
 diff_cores-same_socket,2097152,8778.44,269.78
 diff_cores-same_socket,4194304,7543.88,933.59
-diff_cores-same_socket,0,0,0.20
 diff_cores-same_socket,1,7.41,0.25
 diff_cores-same_socket,2,15.46,0.25
 diff_cores-same_socket,4,30.89,0.25
