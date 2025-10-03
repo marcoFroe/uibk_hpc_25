@@ -50,3 +50,5 @@ The following steps need to be done inside the SLURM file:
 Run the SLURM script with: `sbatch <script>`
 
 ## Task 2
+ 
+The programs need exactly two tasks to work, therefore `--ntasks=2` for all. For the different configurations see the SLURM files.
