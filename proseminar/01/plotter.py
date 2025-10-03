@@ -1,55 +1,52 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 
-def plot_csv_line(csv_path, ,y_axis,output_path=None):
-    """
-    Reads a CSV file with columns: type, size, bw
-    Generates a line plot:
-      - x-axis: size (log scale, ticks = available size values, angled labels)
-      - y-axis: averaged bw
-      - lines grouped and colored by type
 
-    Args:
-        csv_path (str): Path to the CSV file.
-        output_path (str, optional): If provided, saves the plot to this file.
-    """
+def plot_csv(csv_file):
     # Load CSV
-    df = pd.read_csv(csv_path)
+    df = pd.read_csv(csv_file)
 
-    # Check required columns
-    required_cols = {"type", "size", y_axis}
-    if not required_cols.issubset(df.columns):
-        raise ValueError(f"CSV must contain columns: {required_cols}")
+    # Ensure 'size' is numeric
+    df['size'] = pd.to_numeric(df['size'], errors='coerce')
 
-    # Average bw for same (type, size)
-    df = df.groupby(["type", "size"], as_index=False)["bw"].mean()
+    # Group by type and size, take mean of bandwidth and latency
+    df_avg = df.groupby(['type', 'size'], as_index=False).mean()
 
-    # Unique sorted sizes for ticks
-    unique_sizes = sorted(df["size"].unique())
+    # Sort by size for better plotting
+    df_avg = df_avg.sort_values('size')
 
-    # Plot each type
-    plt.figure(figsize=(8, 6))
-    for t, group in df.groupby("type"):
-        group = group.sort_values("size")  # Ensure correct line plotting
-        plt.plot(group["size"], group[y_axis], marker="o", label=t)
+    # Get all unique sizes for consistent x-ticks
+    all_sizes = sorted(df_avg['size'].unique())
 
-    # Set log scale on x-axis
-    plt.xscale("log")
-    plt.xticks(unique_sizes, labels=[str(s) for s in unique_sizes], rotation=45, ha="right")
-
-    # Labels & legend
-    plt.xlabel("Size")
-    plt.ylabel("Bandwidth MB/s")
-    plt.title("Average Bandwidth")
+    # Plot Bandwidth
+    plt.figure(figsize=(10, 6))
+    for t in df_avg['type'].unique():
+        subset = df_avg[df_avg['type'] == t]
+        plt.plot(subset['size'], subset['bandwidth'], marker='o', label=t)
+    plt.xscale('log')
+    plt.xlabel('Size')
+    plt.ylabel('Bandwidth')
+    plt.title('Bandwidth vs Size')
+    plt.xticks(all_sizes, labels=all_sizes, rotation=45)
     plt.legend()
-    plt.grid(True, which="both", linestyle="--", linewidth=0.5)
+    plt.grid(True, which="both", ls="--")
+    plt.tight_layout()
+    plt.show()
 
-    # Save or show
-    if output_path:
-        plt.savefig(output_path, bbox_inches="tight")
-    else:
-        plt.show()
+    # Plot Latency
+    plt.figure(figsize=(10, 6))
+    for t in df_avg['type'].unique():
+        subset = df_avg[df_avg['type'] == t]
+        plt.plot(subset['size'], subset['latency'], marker='o', label=t)
+    plt.xscale('log')
+    plt.xlabel('Size')
+    plt.ylabel('Latency')
+    plt.title('Latency vs Size')
+    plt.xticks(all_sizes, labels=all_sizes, rotation=45)
+    plt.legend()
+    plt.grid(True, which="both", ls="--")
+    plt.tight_layout()
+    plt.show()
 
-if __name__ == '__main__':
-    plot_csv_line("OSU_BW_results.csv",y_axis="bw",output_path="OSU_BW.png")
-    plot_csv_line("OSU_BW_results.csv",y_axis="latency",output_path="OSU_Latency.png")
+# Example usage
+plot_csv("results/OSU_results.csv")
