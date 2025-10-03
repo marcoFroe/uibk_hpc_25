@@ -31,6 +31,8 @@ def plot_csv(csv_file):
     plt.legend()
     plt.grid(True, which="both", ls="--")
     plt.tight_layout()
+    plt.savefig('OSU_Bandwidth.png')
+
     plt.show()
 
     # Plot Latency
@@ -46,6 +48,8 @@ def plot_csv(csv_file):
     plt.legend()
     plt.grid(True, which="both", ls="--")
     plt.tight_layout()
+
+    plt.savefig('OSU_Latency.png')
     plt.show()
 
 # Example usage

@@ -44,6 +44,7 @@ Variable declaration:
 
 
 > How do you run your program in parallel? What environment setup is required?
+
 The following steps need to be done inside the SLURM file:
 - load the openmpi module: `module load openmpi`
 - run the job: `mpiexec -n $SLURM_NTASKS <command>`
@@ -58,3 +59,10 @@ The programs need exactly two tasks to work, therefore `--ntasks=2` for all. For
 As expected for the bandwidth results using different cores on the same socket was the fastest and different nodes the slowest.
 
 ![OSU_Bandwidth.png](OSU_Bandwidth.png)
+
+![OSU_Latency.png](OSU_Latency.png)
+
+> How can you verify rank placement without looking at performance?
+
+- Once a job is started with `squ` one can see how many and which nodes are in use.
+- With `sstat --jobs=<ID>` additional information can be displayed. We recommend to pipe the output to a file since its to much for the terminal.
