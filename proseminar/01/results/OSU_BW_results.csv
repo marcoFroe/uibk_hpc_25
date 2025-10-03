@@ -1,208 +1,217 @@
 type,size,bw,latency
-diff-sock_same-node,1,0.22
-diff-sock_same-node,2,0.46
-diff-sock_same-node,4,0.88
-diff-sock_same-node,8,1.70
-diff-sock_same-node,16,3.20
-diff-sock_same-node,32,6.41
-diff-sock_same-node,64,10.67
-diff-sock_same-node,128,20.30
-diff-sock_same-node,256,34.75
-diff-sock_same-node,512,57.11
-diff-sock_same-node,1024,76.91
-diff-sock_same-node,2048,93.79
-diff-sock_same-node,4096,104.60
-diff-sock_same-node,8192,110.43
-diff-sock_same-node,16384,113.80
-diff-sock_same-node,32768,115.60
-diff-sock_same-node,65536,1028.94
-diff-sock_same-node,131072,1213.24
-diff-sock_same-node,262144,1359.29
-diff-sock_same-node,524288,1391.86
-diff-sock_same-node,1048576,1409.28
-diff-sock_same-node,2097152,1396.93
-diff-sock_same-node,4194304,1454.70
-diff-sock_same-node,1,8.11
-diff-sock_same-node,2,15.85
-diff-sock_same-node,4,32.17
-diff-sock_same-node,8,65.58
-diff-sock_same-node,16,126.84
-diff-sock_same-node,32,245.10
-diff-sock_same-node,64,382.92
-diff-sock_same-node,128,550.71
-diff-sock_same-node,256, 877.03
-diff-sock_same-node,512,1807.67
-diff-sock_same-node,1024,3367.97
-diff-sock_same-node,2048,5717.54
-diff-sock_same-node,4096,3075.49
-diff-sock_same-node,8192,4669.72
-diff-sock_same-node,16384,5732.93
-diff-sock_same-node,32768,7692.87
-diff-sock_same-node,65536,8830.77
-diff-sock_same-node,131072,9179.07
-diff-sock_same-node,262144,8391.91
-diff-sock_same-node,524288,8267.40
-diff-sock_same-node,1048576,8525.13
-diff-sock_same-node,2097152,8615.08
-diff-sock_same-node,4194304,7602.15
-diff-sock_same-node,1,7.92
-diff-sock_same-node,2,15.80
-diff-sock_same-node,4,31.74
-diff-sock_same-node,8,63.55
-diff-sock_same-node,16,125.23
-diff-sock_same-node,32,250.33
-diff-sock_same-node,64,384.83
-diff-sock_same-node,128,557.56
-diff-sock_same-node,256,880.88
-diff-sock_same-node,512,1869.10
-diff-sock_same-node,1024,3515.12
-diff-sock_same-node,2048,5898.65
-diff-sock_same-node,4096,3022.92
-diff-sock_same-node,8192,4580.91
-diff-sock_same-node,16384,5593.43
-diff-sock_same-node,32768,7568.43
-diff-sock_same-node,65536,8861.65
-diff-sock_same-node,131072,9239.08
-diff-sock_same-node,262144,8547.13
-diff-sock_same-node,524288,8174.52
-diff-sock_same-node,1048576,8809.45
-diff-sock_same-node,2097152,8878.02
-diff-sock_same-node,4194304,8041.49
-diff_node,1,0.22
-diff_node,2,0.42
-diff_node,4,0.85
-diff_node,8,1.68
-diff_node,16,3.13
-diff_node,32,6.57
-diff_node,64,11.65
-diff_node,128,21.96
-diff_node,256,38.26
-diff_node,512,61.03
-diff_node,1024,80.54
-diff_node,2048,92.68
-diff_node,4096,104.89
-diff_node,8192,110.63
-diff_node,16384,113.47
-diff_node,32768,115.83
-diff_node,65536,1446.67
-diff_node,131072,1703.18
-diff_node,262144,1807.33
-diff_node,524288,1912.38
-diff_node,1048576,2041.64
-diff_node,2097152,2071.59
-diff_node,4194304,2010.10
-diff_node,1,0.20
-diff_node,2,0.42
-diff_node,4,0.82
-diff_node,8,1.61
-diff_node,16,2.97
-diff_node,32,5.73
-diff_node,64,9.84
-diff_node,128,20.38
-diff_node,256,35.69
-diff_node,512,61.80
-diff_node,1024,80.72
-diff_node,2048,91.10
-diff_node,4096,102.55
-diff_node,8192,110.02
-diff_node,16384,113.73
-diff_node,32768,115.31
-diff_node,65536,1407.85
-diff_node,131072,1741.86
-diff_node,262144,1857.20
-diff_node,524288,1909.53
-diff_node,1048576,1983.81
-diff_node,2097152,2158.82
-diff_node,4194304,1943.65
-diff_node,1,0.25
-diff_node,2,0.49
-diff_node,4,1.00
-diff_node,8,1.92
-diff_node,16,3.67
-diff_node,32,6.87
-diff_node,64,11.60
-diff_node,128,22.95
-diff_node,256,38.25
-diff_node,512,62.94
-diff_node,1024,80.57
-diff_node,2048,93.98
-diff_node,4096,104.12
-diff_node,8192,110.24
-diff_node,16384,113.84
-diff_node,32768,115.40
-diff_node,65536,966.58
-diff_node,131072,1149.28
-diff_node,262144,1257.49
-diff_node,524288,1310.30
-diff_node,1048576,1374.37
-diff_node,2097152,1368.54
-diff_node,4194304,1410.55
-diff_cores-same_socket,1,7.80
-diff_cores-same_socket,2,15.48
-diff_cores-same_socket,4,30.16
-diff_cores-same_socket,8,63.15
-diff_cores-same_socket,16,124.71
-diff_cores-same_socket,32,245.23
-diff_cores-same_socket,64,371.29
-diff_cores-same_socket,128,536.71
-diff_cores-same_socket,256,843.16
-diff_cores-same_socket,512,1823.36
-diff_cores-same_socket,1024,3452.87
-diff_cores-same_socket,2048,5678.37
-diff_cores-same_socket,4096,2984.45
-diff_cores-same_socket,8192,4638.80
-diff_cores-same_socket,16384,6038.12
-diff_cores-same_socket,32768,7210.34
-diff_cores-same_socket,65536,8559.20
-diff_cores-same_socket,131072,8691.05
-diff_cores-same_socket,262144,7383.20
-diff_cores-same_socket,524288,8004.64
-diff_cores-same_socket,1048576,8563.16
-diff_cores-same_socket,2097152,8588.70
-diff_cores-same_socket,4194304,7811.21
-diff_cores-same_socket,1,8.04
-diff_cores-same_socket,2,16.21
-diff_cores-same_socket,4,31.67
-diff_cores-same_socket,8,63.06
-diff_cores-same_socket,16,125.28
-diff_cores-same_socket,32,253.24
-diff_cores-same_socket,64,390.16
-diff_cores-same_socket,128,554.88
-diff_cores-same_socket,256,862.25
-diff_cores-same_socket,512,1813.48
-diff_cores-same_socket,1024,3442.86
-diff_cores-same_socket,2048,5656.62
-diff_cores-same_socket,4096,3024.72
-diff_cores-same_socket,8192,4591.95
-diff_cores-same_socket,16384,5688.17
-diff_cores-same_socket,32768,7682.02
-diff_cores-same_socket,65536,8792.73
-diff_cores-same_socket,131072,8593.99
-diff_cores-same_socket,262144,7684.91
-diff_cores-same_socket,524288,7749.11
-diff_cores-same_socket,1048576,8323.94
-diff_cores-same_socket,2097152,8778.44
-diff_cores-same_socket,4194304,7543.88
-diff_cores-same_socket,1,7.41
-diff_cores-same_socket,2,15.46
-diff_cores-same_socket,4,30.89
-diff_cores-same_socket,8,61.81
-diff_cores-same_socket,16,121.67
-diff_cores-same_socket,32,241.04
-diff_cores-same_socket,64,378.44
-diff_cores-same_socket,128,532.63
-diff_cores-same_socket,256,843.62
-diff_cores-same_socket,512,1857.17
-diff_cores-same_socket,1024,3367.99
-diff_cores-same_socket,2048,5441.60
-diff_cores-same_socket,4096,2854.84
-diff_cores-same_socket,8192,4574.55
-diff_cores-same_socket,16384,5461.42
-diff_cores-same_socket,32768,6767.13
-diff_cores-same_socket,65536,7736.20
-diff_cores-same_socket,131072,7955.72
-diff_cores-same_socket,262144,7893.66
-diff_cores-same_socket,524288,8033.11
-diff_cores-same_socket,1048576,7767.18
-diff_cores-same_socket,2097152,8564.62
-diff_cores-same_socket,4194304,8021.20
+diff-sock_same-node,0,,  36.66
+diff-sock_same-node,1,0.22,  26.26
+diff-sock_same-node,2,0.46,  27.00
+diff-sock_same-node,4,0.88,  29.18
+diff-sock_same-node,8,1.70,  27.54
+diff-sock_same-node,16,3.20,  28.46
+diff-sock_same-node,32,6.41,  26.41
+diff-sock_same-node,64,10.67,  26.99
+diff-sock_same-node,128,20.30,  27.07
+diff-sock_same-node,256,34.75,  34.96
+diff-sock_same-node,512,57.11,  52.66
+diff-sock_same-node,1024,76.91,  81.83
+diff-sock_same-node,2048,93.79, 138.13
+diff-sock_same-node,4096,104.60, 210.39
+diff-sock_same-node,8192,110.43, 233.47
+diff-sock_same-node,16384,113.80, 316.37
+diff-sock_same-node,32768,115.60, 464.81
+diff-sock_same-node,65536,1028.94, 328.71
+diff-sock_same-node,131072,1213.24, 395.39
+diff-sock_same-node,262144,1359.29, 482.11
+diff-sock_same-node,524288,1391.86, 697.33
+diff-sock_same-node,1048576,1409.28,1028.95
+diff-sock_same-node,2097152,1396.93,1777.28
+diff-sock_same-node,4194304,1454.70,3306.80
+diff-sock_same-node,1,,  0.21
+diff-sock_same-node,1,8.11,  0.25
+diff-sock_same-node,2,15.85,  0.25
+diff-sock_same-node,4,32.17,  0.25
+diff-sock_same-node,8,65.58,  0.25
+diff-sock_same-node,16,126.84,  0.26
+diff-sock_same-node,32,245.10,  0.26
+diff-sock_same-node,64,382.92,  0.29
+diff-sock_same-node,128,550.71,  0.33
+diff-sock_same-node,256, 877.03,  0.37
+diff-sock_same-node,512,1807.67,  0.48
+diff-sock_same-node,1024,3367.97,  0.53
+diff-sock_same-node,2048,5717.54,  0.73
+diff-sock_same-node,4096,3075.49,  2.04
+diff-sock_same-node,8192,4669.72,  2.41
+diff-sock_same-node,16384,5732.93,  3.48
+diff-sock_same-node,32768,7692.87,  4.82
+diff-sock_same-node,65536,8830.77,  8.08
+diff-sock_same-node,131072,9179.07, 15.99
+diff-sock_same-node,262144,8391.91, 35.97
+diff-sock_same-node,524288,8267.40, 65.24
+diff-sock_same-node,1048576,8525.13,129.25
+diff-sock_same-node,2097152,8615.08,292.11
+diff-sock_same-node,4194304,7602.15,970.58
+diff-sock_same-node,0,,  0.21
+diff-sock_same-node,1,7.92,  0.25
+diff-sock_same-node,2,15.80,  0.25
+diff-sock_same-node,4,31.74,  0.25
+diff-sock_same-node,8,63.55,  0.26
+diff-sock_same-node,16,125.23,  0.26
+diff-sock_same-node,32,250.33,  0.27
+diff-sock_same-node,64,384.83,  0.29
+diff-sock_same-node,128,557.56,  0.33
+diff-sock_same-node,256,880.88,  0.38
+diff-sock_same-node,512,1869.10,  0.50
+diff-sock_same-node,1024,3515.12,  0.56
+diff-sock_same-node,2048,5898.65,  0.75
+diff-sock_same-node,4096,3022.92,  2.01
+diff-sock_same-node,8192,4580.91,  2.35
+diff-sock_same-node,16384,5593.43,  3.43
+diff-sock_same-node,32768,7568.43,  4.83
+diff-sock_same-node,65536,8861.65,  8.14
+diff-sock_same-node,131072,9239.08, 16.22
+diff-sock_same-node,262144,8547.13, 35.59
+diff-sock_same-node,524288,8174.52, 67.53
+diff-sock_same-node,1048576,8809.45,125.85
+diff-sock_same-node,2097152,8878.02,281.12
+diff-sock_same-node,4194304,8041.49,957.60
+diff_node,0,,43.20
+diff_node,1,0.22,50.55
+diff_node,2,0.42,67.04
+diff_node,4,0.85,26.78
+diff_node,8,1.68,39.35
+diff_node,16,3.13,52.39
+diff_node,32,6.57,34.88
+diff_node,64,11.65,29.27
+diff_node,128,21.96,46.51
+diff_node,256,38.26,33.08
+diff_node,512,61.03,70.42
+diff_node,1024,80.54,89.32
+diff_node,2048,92.68,145.07
+diff_node,4096,104.89,218.55
+diff_node,8192,110.63,231.90
+diff_node,16384,113.47,309.65
+diff_node,32768,115.83,482.08
+diff_node,65536,1446.67,235.66
+diff_node,131072,1703.18,398.69
+diff_node,262144,1807.33,462.44
+diff_node,524288,1912.38,598.95
+diff_node,1048576,2041.64,813.00
+diff_node,2097152,2071.59,1278.84
+diff_node,4194304,2010.10,2441.48
+diff_node,0,,26.07
+diff_node,1,0.20,29.71
+diff_node,2,0.42,35.69
+diff_node,4,0.82,50.91
+diff_node,8,1.61,30.10
+diff_node,16,2.97,45.39
+diff_node,32,5.73,37.79
+diff_node,64,9.84,40.42
+diff_node,128,20.38,52.30
+diff_node,256,35.69,64.93
+diff_node,512,61.80,60.23
+diff_node,1024,80.72,76.44
+diff_node,2048,91.10,146.43
+diff_node,4096,102.55,219.95
+diff_node,8192,110.02,231.68
+diff_node,16384,113.73,316.82
+diff_node,32768,115.31,466.23
+diff_node,65536,1407.85,198.18
+diff_node,131072,1741.86,361.68
+diff_node,262144,1857.20,426.08
+diff_node,524288,1909.53,601.88
+diff_node,1048576,1983.81,843.41
+diff_node,2097152,2158.82,1293.54
+diff_node,4194304,1943.65,2434.17
+diff_node,0,,31.06
+diff_node,1,0.25,51.98
+diff_node,2,0.49,46.61
+diff_node,4,1.00,34.08
+diff_node,8,1.92,52.54
+diff_node,16,3.67,53.81
+diff_node,32,6.87,68.94
+diff_node,64,11.60,65.51
+diff_node,128,22.95,48.87
+diff_node,256,38.25,73.92
+diff_node,512,62.94,88.11
+diff_node,1024,80.57,92.19
+diff_node,2048,93.98,148.21
+diff_node,4096,104.12,220.88
+diff_node,8192,110.24,235.51
+diff_node,16384,113.84,310.04
+diff_node,32768,115.40,493.19
+diff_node,65536,966.58,257.87
+diff_node,131072,1149.28,397.92
+diff_node,262144,1257.49,447.28
+diff_node,524288,1310.30,695.51
+diff_node,1048576,1374.37,929.10
+diff_node,2097152,1368.54,1516.92
+diff_node,4194304,1410.55,2882.20
+diff_cores-same_socket,0,,0.21
+diff_cores-same_socket,1,7.80,0.25
+diff_cores-same_socket,2,15.48,0.25
+diff_cores-same_socket,4,30.16,0.25
+diff_cores-same_socket,8,63.15,0.26
+diff_cores-same_socket,16,124.71,0.26
+diff_cores-same_socket,32,245.23,0.26
+diff_cores-same_socket,64,371.29,0.28
+diff_cores-same_socket,128,536.71,0.32
+diff_cores-same_socket,256,843.16,0.36
+diff_cores-same_socket,512,1823.36,0.48
+diff_cores-same_socket,1024,3452.87,0.54
+diff_cores-same_socket,2048,5678.37,0.73
+diff_cores-same_socket,4096,2984.45,2.06
+diff_cores-same_socket,8192,4638.80,2.44
+diff_cores-same_socket,16384,6038.12,3.42
+diff_cores-same_socket,32768,7210.34,4.92
+diff_cores-same_socket,65536,8559.20,8.25
+diff_cores-same_socket,131072,8691.05,15.38
+diff_cores-same_socket,262144,7383.20,32.71
+diff_cores-same_socket,524288,8004.64,63.60
+diff_cores-same_socket,1048576,8563.16,123.86
+diff_cores-same_socket,2097152,8588.70,251.24
+diff_cores-same_socket,4194304,7811.21,948.30
+diff_cores-same_socket,0,,0.21
+diff_cores-same_socket,1,8.04,0.25
+diff_cores-same_socket,2,16.21,0.25
+diff_cores-same_socket,4,31.67,0.25
+diff_cores-same_socket,8,63.06,0.25
+diff_cores-same_socket,16,125.28,0.26
+diff_cores-same_socket,32,253.24,0.26
+diff_cores-same_socket,64,390.16,0.29
+diff_cores-same_socket,128,554.88,0.33
+diff_cores-same_socket,256,862.25,0.37
+diff_cores-same_socket,512,1813.48,0.51
+diff_cores-same_socket,1024,3442.86,0.55
+diff_cores-same_socket,2048,5656.62,0.74
+diff_cores-same_socket,4096,3024.72,1.98
+diff_cores-same_socket,8192,4591.95,2.44
+diff_cores-same_socket,16384,5688.17,3.44
+diff_cores-same_socket,32768,7682.02,4.87
+diff_cores-same_socket,65536,8792.73,8.14
+diff_cores-same_socket,131072,8593.99,15.57
+diff_cores-same_socket,262144,7684.91,34.03
+diff_cores-same_socket,524288,7749.11,65.78
+diff_cores-same_socket,1048576,8323.94,127.06
+diff_cores-same_socket,2097152,8778.44,269.78
+diff_cores-same_socket,4194304,7543.88,933.59
+diff_cores-same_socket,0,,0.20
+diff_cores-same_socket,1,7.41,0.25
+diff_cores-same_socket,2,15.46,0.25
+diff_cores-same_socket,4,30.89,0.25
+diff_cores-same_socket,8,61.81,0.26
+diff_cores-same_socket,16,121.67,0.25
+diff_cores-same_socket,32,241.04,0.26
+diff_cores-same_socket,64,378.44,0.28
+diff_cores-same_socket,128,532.63,0.32
+diff_cores-same_socket,256,843.62,0.36
+diff_cores-same_socket,512,1857.17,0.46
+diff_cores-same_socket,1024,3367.99,0.51
+diff_cores-same_socket,2048,5441.60,0.71
+diff_cores-same_socket,4096,2854.84,1.98
+diff_cores-same_socket,8192,4574.55,2.33
+diff_cores-same_socket,16384,5461.42,3.29
+diff_cores-same_socket,32768,6767.13,4.71
+diff_cores-same_socket,65536,7736.20,7.88
+diff_cores-same_socket,131072,7955.72,14.70
+diff_cores-same_socket,262144,7893.66,32.46
+diff_cores-same_socket,524288,8033.11,63.03
+diff_cores-same_socket,1048576,7767.18,125.11
+diff_cores-same_socket,2097152,8564.62,249.12
+diff_cores-same_socket,4194304,8021.20,936.35

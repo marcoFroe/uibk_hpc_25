@@ -64,9 +64,6 @@ WARNING: There was an error initializing an OpenFabrics device.
 2                      67.04
 4                      26.78
 8                      39.35
-[n005.intern.lcc3.intra.uibk.ac.at:4166897] 1 more process has sent help message help-mpi-btl-openib.txt / ib port not selected
-[n005.intern.lcc3.intra.uibk.ac.at:4166897] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
-[n005.intern.lcc3.intra.uibk.ac.at:4166897] 1 more process has sent help message help-mpi-btl-openib.txt / error in device init
 16                     52.39
 32                     34.88
 64                     29.27

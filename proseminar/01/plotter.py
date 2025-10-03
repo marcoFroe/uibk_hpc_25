@@ -1,7 +1,7 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 
-def plot_csv_line(csv_path, output_path=None):
+def plot_csv_line(csv_path, ,y_axis,output_path=None):
     """
     Reads a CSV file with columns: type, size, bw
     Generates a line plot:
@@ -17,7 +17,7 @@ def plot_csv_line(csv_path, output_path=None):
     df = pd.read_csv(csv_path)
 
     # Check required columns
-    required_cols = {"type", "size", "bw"}
+    required_cols = {"type", "size", y_axis}
     if not required_cols.issubset(df.columns):
         raise ValueError(f"CSV must contain columns: {required_cols}")
 
@@ -31,7 +31,7 @@ def plot_csv_line(csv_path, output_path=None):
     plt.figure(figsize=(8, 6))
     for t, group in df.groupby("type"):
         group = group.sort_values("size")  # Ensure correct line plotting
-        plt.plot(group["size"], group["bw"], marker="o", label=t)
+        plt.plot(group["size"], group[y_axis], marker="o", label=t)
 
     # Set log scale on x-axis
     plt.xscale("log")
@@ -51,4 +51,5 @@ def plot_csv_line(csv_path, output_path=None):
         plt.show()
 
 if __name__ == '__main__':
-    plot_csv_line("OSU_BW_results.csv", "test.png")
+    plot_csv_line("OSU_BW_results.csv",y_axis="bw",output_path="OSU_BW.png")
+    plot_csv_line("OSU_BW_results.csv",y_axis="latency",output_path="OSU_Latency.png")
