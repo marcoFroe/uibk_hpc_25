@@ -51,4 +51,10 @@ Run the SLURM script with: `sbatch <script>`
 
 ## Task 2
  
-The programs need exactly two tasks to work, therefore `--ntasks=2` for all. For the different configurations see the SLURM files.
+The programs need exactly two tasks to work, therefore `--ntasks=2` for all. For the different configurations, see the SLURM files.
+
+
+### Results
+As expected for the bandwidth results using different cores on the same socket was the fastest and different nodes the slowest.
+
+![OSU_Bandwidth.png](OSU_Bandwidth.png)

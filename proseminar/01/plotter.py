@@ -5,8 +5,8 @@ def plot_csv_line(csv_path, output_path=None):
     """
     Reads a CSV file with columns: type, size, bw
     Generates a line plot:
-      - x-axis: size (log scale)
-      - y-axis: bw
+      - x-axis: size (log scale, ticks = available size values, angled labels)
+      - y-axis: averaged bw
       - lines grouped and colored by type
 
     Args:
@@ -21,6 +21,12 @@ def plot_csv_line(csv_path, output_path=None):
     if not required_cols.issubset(df.columns):
         raise ValueError(f"CSV must contain columns: {required_cols}")
 
+    # Average bw for same (type, size)
+    df = df.groupby(["type", "size"], as_index=False)["bw"].mean()
+
+    # Unique sorted sizes for ticks
+    unique_sizes = sorted(df["size"].unique())
+
     # Plot each type
     plt.figure(figsize=(8, 6))
     for t, group in df.groupby("type"):
@@ -29,11 +35,12 @@ def plot_csv_line(csv_path, output_path=None):
 
     # Set log scale on x-axis
     plt.xscale("log")
+    plt.xticks(unique_sizes, labels=[str(s) for s in unique_sizes], rotation=45, ha="right")
 
     # Labels & legend
-    plt.xlabel("Size (log scale)")
-    plt.ylabel("Bandwidth")
-    plt.title("Line Plot by Type")
+    plt.xlabel("Size")
+    plt.ylabel("Bandwidth MB/s")
+    plt.title("Average Bandwidth")
     plt.legend()
     plt.grid(True, which="both", linestyle="--", linewidth=0.5)
 
@@ -43,5 +50,5 @@ def plot_csv_line(csv_path, output_path=None):
     else:
         plt.show()
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     plot_csv_line("OSU_BW_results.csv", "test.png")

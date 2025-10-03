@@ -1,4 +1,4 @@
-type,size,bw
+type,size,bw,latency
 diff-sock_same-node,1,0.22
 diff-sock_same-node,2,0.46
 diff-sock_same-node,4,0.88
