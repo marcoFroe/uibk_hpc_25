@@ -30,6 +30,7 @@ module load openmpi/
 mpiexec -n $SLURM_NTASKS /bin/hostname
 ```
 Variable declaration:
+
 - `%x` -> job name
 - `%j` -> job id
 - `%N` -> short host name
