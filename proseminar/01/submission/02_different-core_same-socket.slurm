@@ -10,6 +10,6 @@
 #SBATCH --exclusive
 
 module load openmpi/
-mpiexec -n $SLURM_NTASKS ./benchmark/osu-micro-benchmarks-5.8/mpi/pt2pt/osu_bw
-mpiexec -n $SLURM_NTASKS ./benchmark/osu-micro-benchmarks-5.8/mpi/pt2pt/osu_latency
+mpiexec -n $SLURM_NTASKS ../benchmark/osu-micro-benchmarks-5.8/mpi/pt2pt/osu_bw
+mpiexec -n $SLURM_NTASKS ../benchmark/osu-micro-benchmarks-5.8/mpi/pt2pt/osu_latency
 
