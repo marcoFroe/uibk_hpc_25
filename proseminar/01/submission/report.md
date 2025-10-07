@@ -36,27 +36,29 @@ Variable declaration:
 
 > In your opinion, what are the 5 most important parameters available when submitting a job and why? What are possible settings of these parameters, and what effect do they have?
 
-1. `#SBATCH --ntasks`: Defines the number of tasks to start, default 1.
-2. `#SBATCH --ntasks-per-node`: Defines how many of the above defines tasks will be executed per node. Important with the above option for resource management and with that performance.
-3. `#SBATCH --time`: Defines a timeout for the job to prevent dead processes from filling up the system. Performs a graceful shutdown by first sending a TERM signal and 30sec later a KILL signal.
-4. `#SBATCH --exclusive`: Ensures to get the nodes exclusively and not sharing resources.
-5. `#SBATCH --job-name`: Sets the jobs name to make it easier to identify them later, especially when using this variable for the output files name.
+1. `#SBATCH --ntasks`: Defines the number of tasks started with the default being 1.
+2. `#SBATCH --ntasks-per-node`: Defines how many tasks should be executed per node. In combination with the number of total tasks, this option is important for resource management and with that also performance.
+3. `#SBATCH --time`: Defines a timeout for the job. After running for the specified amount of time, a TERM signal is sent to the process followed by a KILL signal 30 seconds later. This prevents dead processes from filling up the system while still allowing for a graceful shutdown.
+4. `#SBATCH --exclusive`: Ensures that the requested resources will be used for this job exclusively instead of possibly sharing them with other jobs. This reduces reduces the influence of outside factors on the performance of the program.
+5. `#SBATCH --job-name`: Sets the jobs name. This allows for easier job management.
 
 
 > How do you run your program in parallel? What environment setup is required?
 
-The following steps need to be done inside the SLURM file:
+In addition to the parameters for the job, the SLURM file needs to contain the following commands:
 - load the openmpi module: `module load openmpi`
 - run the job: `mpiexec -n $SLURM_NTASKS <command>`
-Run the SLURM script with: `sbatch <script>`
+
+The SLURM script can then be run with: `sbatch <script>`
 
 ## Task 2
  
-The programs need exactly two tasks to work, therefore `--ntasks=2` for all. For the different configurations, see the SLURM files.
+The programs need exactly two tasks to work, therefore `--ntasks=2` for all test runs. To see which SLURM parameters were set for the different configurations, please consider the SLURM files.
 
 
 ### Results
-As expected for the bandwidth results using different cores on the same socket was the fastest and different nodes the slowest.
+Below you can see the average results over three different test runs of the different configurations with the bandwith being measured in MB/s and the latency in us. As was to be expected, using different cores of the same socket achieved the highest bandwidth while running the tasks on different nodes resulted in the lowest bandwidth. The latency measurements show similar results with placing the ranks on different nodes resulting in the biggest latency and running them on different cores of the same socket in the smallest. 
+Interestingly, the measured bandwidth of the configuration which assigns both tasks to the same socket and the configuration which runs them on different sockets of the same node both decrease significantly when increasing the message size from 2048 to 4096 while the configuration using different nodes does not display this behaviour.
 
 ![OSU_Bandwidth.png](OSU_Bandwidth.png)
 
@@ -64,5 +66,14 @@ As expected for the bandwidth results using different cores on the same socket w
 
 > How can you verify rank placement without looking at performance?
 
-- Once a job is started with `squ` one can see how many and which nodes are in use.
-- With `sstat --jobs=<ID>` additional information can be displayed. We recommend to pipe the output to a file since its to much for the terminal.
+With the following commands, one can obtian information about currently running jobs: 
+- Once a job is started one can see how many and which nodes are in use with `squ`.
+- With `sstat --jobs=<ID>` additional information can be displayed. We recommend to pipe the output to a file since it is difficult to read in the terminal.
+
+Although one can find out a lot about the resource allocation of the current jobs with these commands, they do not directly tell us anything about rank placement. Sadly, we were not able to find a method of doing this. 
+
+> How stable are the measurements when running the experiments multiple times?
+
+- Different Cores of the same Socket: The measured latency values are very stable. Altough there is some variance in the measured bandwidth values, the overall trends such as the dip in bandwidth when going from a message size of 2048 to 4096 are clearly visible in all of the performed test runs. 
+- Different Sockets of the same Node: While two of the performed test runs have very similar measurements, the third one was significantly slower with a higher latency and a lower bandwidth. Here, the dip in bandwidth when going from a message size of 2048 to 4096 is only present in the faster two test runs. 
+- Different Nodes: Same as when testing with the ranks being run on different sockets of the same node, two test runs had similar performances while one was signifivantly slower. 
