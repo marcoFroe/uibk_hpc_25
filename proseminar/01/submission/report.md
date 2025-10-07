@@ -58,7 +58,10 @@ The programs need exactly two tasks to work, therefore `--ntasks=2` for all test
 
 
 ### Results
-Below you can see the average results over three different test runs of the different configurations with the bandwith being measured in MB/s and the latency in us. As was to be expected, using different cores of the same socket achieved the highest bandwidth while running the tasks on different nodes resulted in the lowest bandwidth. The latency measurements show similar results with placing the ranks on different nodes resulting in the biggest latency and running them on different cores of the same socket in the smallest. 
+Below you can see the average results over three different test runs of the different configurations with the bandwith being measured in MB/s and the latency in us. Noteably, the measurements with a size of 0 were removed from the graphic to enable logarithmic scaling of the x axis. 
+
+As was to be expected, using running the ranks on different nodes was the least efficient configuration. The other two configurations behaved very similarly with the one placing the ranks on different sockets of the same node slightly outperforming the configuration which placed both ranks on the same socket. 
+
 Interestingly, the measured bandwidth of the configuration which assigns both tasks to the same socket and the configuration which runs them on different sockets of the same node both decrease significantly when increasing the message size from 2048 to 4096 while the configuration using different nodes does not display this behaviour.
 
 ![OSU_Bandwidth.png](OSU_Bandwidth.png)
@@ -76,5 +79,5 @@ Although one can find out a lot about the resource allocation of the current job
 > How stable are the measurements when running the experiments multiple times?
 
 - Different Cores of the same Socket: The measured latency values are very stable. Altough there is some variance in the measured bandwidth values, the overall trends such as the dip in bandwidth when going from a message size of 2048 to 4096 are clearly visible in all of the performed test runs. 
-- Different Sockets of the same Node: While two of the performed test runs have very similar measurements, the third one was significantly slower with a higher latency and a lower bandwidth. Here, the dip in bandwidth when going from a message size of 2048 to 4096 is only present in the faster two test runs. 
-- Different Nodes: Same as when testing with the ranks being run on different sockets of the same node, two test runs had similar performances while one was signifivantly slower. 
+- Different Sockets of the same Node: Similar behaviour to different cores of the same socket.
+- Different Nodes: While two of the performed test runs have very similar measurements, the third one was significantly slower with a higher latency and a lower bandwidth.
