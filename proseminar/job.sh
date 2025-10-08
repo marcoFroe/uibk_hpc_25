@@ -13,5 +13,6 @@
 # Enforce exclusive node allocation, do not share with other jobs
 #SBATCH --exclusive
 
-module load openmpi/
+# use openmpi 3.1.6 to be faster --> better compatibility with network and stuff
+module load openmpi/3.1.6-gcc-12.2.0-d2gmn5
 mpiexec -n $SLURM_NTASKS /bin/hostname
