@@ -14,5 +14,5 @@
 #SBATCH --exclusive
 
 # use openmpi 3.1.6 to be faster --> better compatibility with network and stuff
-module load openmpi/3.1.6-gcc-12.2.0-d2gmn5
+module load openmpi/3.1.6-gcc-12.2.0-d2gmn55
 mpiexec -n $SLURM_NTASKS /bin/hostname
