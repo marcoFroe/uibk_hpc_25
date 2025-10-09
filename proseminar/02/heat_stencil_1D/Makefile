@@ -1,5 +1,5 @@
-CC=gcc
-CFLAGS=-O2 -std=gnu11 -Wall -Wextra -pedantic
+CC=mpicc
+CFLAGS=-O3 -std=gnu11 -Wall -Wextra -pedantic
 
 .PHONY: all
 all: heat_stencil_1D_seq
