@@ -1,5 +1,5 @@
 CC=mpicc
-CFLAGS=-O3 -std=gnu11 -Wall -Wextra -pedantic
+CFLAGS=-Ofast -std=gnu11 -Wall -Wextra -pedantic -lm
 
 .PHONY: all
 all: heat_stencil_1D_seq heat_stencil_1D_mpi

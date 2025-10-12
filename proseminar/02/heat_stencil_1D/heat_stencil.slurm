@@ -1,0 +1,42 @@
+#!/bin/bash
+# This code was generated with ChatGPT to simplify evaluations. The output is not valid CSV there is an unnecessary ',' inside th
+# that needs to be removed.
+
+
+#SBATCH --partition=lva
+#SBATCH --job-name=heat_stencil_mpi_benchmark
+#SBATCH --output=%x_%j_%N.out
+#SBATCH --exclusive
+#SBATCH --ntasks=64
+
+# === MODULES ===
+module load openmpi/3.1.6-gcc-12.2.0-d2gmn55
+
+# === USER PARAMETERS ===
+PROBLEM_SIZES=(1920 3840 5760 7680 9600 19200)
+MPI_RANKS=(1 2 4 8 16 32 48 64)
+REPEATS=5
+
+# Output CSV file
+CSV_FILE="mpi_benchmark_results.csv"
+
+# === INITIALIZE CSV HEADER ===
+echo "Problem_Size,num_ranks,time" > "$CSV_FILE"
+
+# === MAIN LOOP ===
+for size in "${PROBLEM_SIZES[@]}"; do
+    for ranks in "${MPI_RANKS[@]}"; do
+        for ((i=1; i<=REPEATS; i++)); do
+            if [ "$ranks" -eq 1 ]; then
+                TIME_OUTPUT=$(/usr/bin/time -f "%e" ./heat_stencil_1D_seq "$size" 2>&1 >/dev/null)
+            else
+                TIME_OUTPUT=$(/usr/bin/time -f "%e" mpiexec -n "$ranks" ./heat_stencil_1D_mpi "$size" 2>&1 >/dev/null)
+            fi
+    echo "$size,$ranks,$TIME_OUTPUT" >> "$CSV_FILE"
+done
+
+    done
+done
+
+echo "Benchmark completed at $(date)"
+echo "Results saved in: $CSV_FILE"
