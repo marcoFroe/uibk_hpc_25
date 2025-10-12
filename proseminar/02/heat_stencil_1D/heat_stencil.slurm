@@ -1,7 +1,5 @@
 #!/bin/bash
-# This code was generated with ChatGPT to simplify evaluations. The output is not valid CSV there is an unnecessary ',' inside th
-# that needs to be removed.
-
+# This code was generated with ChatGPT to simplify evaluations. 
 
 #SBATCH --partition=lva
 #SBATCH --job-name=heat_stencil_mpi_benchmark
@@ -13,7 +11,7 @@
 module load openmpi/3.1.6-gcc-12.2.0-d2gmn55
 
 # === USER PARAMETERS ===
-PROBLEM_SIZES=(1920 3840 5760 7680 9600 19200)
+PROBLEM_SIZES=(7680 9600 19200)
 MPI_RANKS=(1 2 4 8 16 32 48 64)
 REPEATS=5
 
