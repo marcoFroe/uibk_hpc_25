@@ -83,15 +83,17 @@ int main(int argc, char** argv) {
 
 	// create a second buffer for the computation
 	Vector B = createVector(sec_size);
+	// Edge Synchronisation -> MPI_PROC_NULL does not change the buffers if used in Send/Recv
+	int left_rank = (rank == 0) ? MPI_PROC_NULL : rank - 1;
+	int right_rank = (rank == num_ranks - 1) ? MPI_PROC_NULL : rank + 1;
+
+	int relative_source_pos = source_x - (rank * sec_size);
+
+	value_t left_recv = 273;
+	value_t right_recv = 273;
 
 	// for each time step ..
 	for(int t = 0; t < T; t++) {
-		// Edge Synchronisation -> MPI_PROC_NULL does not change the buffers if used in Send/Recv
-		int left_rank = (rank == 0) ? MPI_PROC_NULL : rank - 1;
-		int right_rank = (rank == num_ranks - 1) ? MPI_PROC_NULL : rank + 1;
-		value_t left_recv = 273;
-		value_t right_recv = 273;
-
 		// exchange boundaries
 		MPI_Sendrecv(&SubSec[0], 1, MPI_DOUBLE, left_rank, GOOD_TAG, &right_recv, 1, MPI_DOUBLE,
 		             right_rank, GOOD_TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
@@ -105,12 +107,10 @@ int main(int argc, char** argv) {
 		// .. we propagate the temperature
 		for(long long i = 0; i < sec_size; i++) {
 			// center stays constant (the heat is still on)
-			int relative_source_pos = source_x - (rank * sec_size);
-			if(relative_source_pos >= 0 && relative_source_pos < sec_size) {
-				if(i == relative_source_pos) {
-					B[i] = SubSec[i];
-					continue;
-				}
+			if(relative_source_pos >= 0 && relative_source_pos < sec_size &&
+			   i == relative_source_pos) {
+				B[i] = SubSec[i];
+				continue;
 			}
 
 			// get temperature at current position
@@ -139,6 +139,7 @@ int main(int argc, char** argv) {
 			}
 		}
 	}
+	MPI_Gather(SubSec, sec_size, MPI_DOUBLE, A, sec_size, MPI_DOUBLE, 0, MPI_COMM_WORLD);
 	releaseVector(B);
 	releaseVector(SubSec);
 
