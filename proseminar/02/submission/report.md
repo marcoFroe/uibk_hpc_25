@@ -7,6 +7,12 @@
 
 There is only one point at which the ranks need to communicate with each other which is when the sum of sampled points inside the circle needs to be calculated. For this purpose, we would choose the `MPI_Reduce` pattern as it is designed to reduce the results of multiple ranks into one.
 
+The average program runtime over 5 executions is displayed below.
+
+![Benchmark](mpi_monte_carlo_benchmark.png)
+
+For smaller sample sizes, a lower number of ranks performs better than a higher one with the sequential implementation being significantly better than the other configurations for sample sizes of up to 10^7. This implies that the computation itself is not very time consuming, and for smaller sample sizes the communication between the ranks makes up a large part of the program runtime. For 10^9 samples, this effect is reversed, with more ranks achieving shorter computation times. 
+
 # Task 2: Heat Stencil in 1D
 
 ## Idea for parallelization
