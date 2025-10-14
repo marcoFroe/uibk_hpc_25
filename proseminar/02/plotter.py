@@ -2,7 +2,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 
-def plot_mpi_benchmark(csv_file):
+def plot_mpi_benchmark(csv_file, output_file):
     # Load CSV file
     df = pd.read_csv(csv_file)
 
@@ -29,9 +29,11 @@ def plot_mpi_benchmark(csv_file):
     ax.set_title('MPI Benchmark: Average Execution Time vs Problem Size')
     ax.legend(title='MPI Ranks')
     ax.grid(True, linestyle='--', alpha=0.6)
+    plt.xscale("log")
+    plt.yscale("log")
     plt.tight_layout()
-    plt.savefig('mpi_heat_stencil_benchmark.png')
+    plt.savefig(output_file)
     plt.show()
 
 if __name__ == '__main__':
-    plot_mpi_benchmark('heat_stencil_benchmark_results.csv')
+    plot_mpi_benchmark('./monte_carlo_pi/mpi_benchmark_results.csv', "./submission/mpi_monte_carlo_benchmark.png")
