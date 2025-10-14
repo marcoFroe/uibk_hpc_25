@@ -5,7 +5,7 @@
 # Name your job to be able to identify it later
 #SBATCH --job-name=osu_latency_results
 # Redirect output stream to this file
-#SBATCH --output=x_%j_%N.out
+#SBATCH --output=%x_%j_%N.out
 # Maximum number of tasks (=processes) to start in total
 #SBATCH --ntasks=2
 # Maximum number of tasks (=processes) to start per node
