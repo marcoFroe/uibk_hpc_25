@@ -6,3 +6,4 @@ notes.md
 /test/
 /.vscode/
 /.idea/
+./compile_flags.txt
