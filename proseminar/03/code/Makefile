@@ -1,15 +1,18 @@
 CC=mpicc
-CFLAGS=-std=gnu11
+CFLAGS=-std=gnu11 -Wall -Wextra -Wpedantic
 
-.PHONY: all
-all: example_1 example_2
+SRC=$(wildcard *.c)
+TARGETS=$(SRC:.c=)
 
-example_1: example_1.c
-	@$(CC) $(CFLAGS) $< -o example_1
+.PHONY: all clean
 
-example_2: example_2.c
-	@$(CC) $(CFLAGS) $< -o example_2
+# Default target: build all executables
+all: $(TARGETS)
 
-.PHONY: clean
+# Generic build rule: compile each .c file into an executable
+%: %.c
+	@$(CC) $(CFLAGS) $< -o $@
+
+# Clean rule: remove all generated executables
 clean:
-	@rm example_1 example_2
+	@rm -f $(TARGETS)
