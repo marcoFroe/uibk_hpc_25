@@ -55,4 +55,4 @@ Claude found the following problems:
 Interestingly Claude now uses code formatting and also identified a problem with a comment in the first section that is present in the input code but only of cosmetic relevance.
 
 ## Conclusion
-All used models found the underlying problem in both code examples on the first try. The interesting part is what else the models care about. Especially Claude is here an interesting example, one time it does not care about code formatting but on the second try it complains about typos in code comments.
+All models fixed the code in a way that it terminates without errors. But when running the examples with the *MUST* tool the first one exists without error on the second one the tool notices a possible deadlock, even though the code exits without reporting any issues. It is also interesting what else the models care about. Especially Claude is here an notable example, one time it does not care about code formatting but on the second try it complains about typos in code comments.
