@@ -1,3 +1,4 @@
+# generated using ChatGPT
 CC=mpicc
 CFLAGS=-std=gnu11 -Wall -Wextra -Wpedantic
 
