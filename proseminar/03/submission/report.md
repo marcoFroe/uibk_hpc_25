@@ -40,11 +40,6 @@ We then ran the code of example 1 with `/scratch/c703429/software/must-1.9.1/bin
 
 When repeating this for example 2, there is a `MUST_ERROR_LEAK_DATATYPE` and a `MUST_ERROR_LEAK_REQUEST`. After doing some research, we found that custom MPI datatypes and requests need to be freed at the end of the program. After adding the corresponding calls to the code, the MUST output for example 2 does not contain any errors either. 
 
-In summary, a lot of errors can be corrected simply by looking at the code. However, you cannot correct things you don't know are wrong. In such cases, tools such as sanitizers and debuggers are of great help.
-
-
-
-
 
 # Task 2:
 This task was done without looking at the code at first. We simply asked different AI tool (ChatGPT, Mistral, Claude) to debug the code. For that initially the following prompt was used: 
@@ -98,5 +93,11 @@ Claude found the following problems:
 
 Interestingly Claude now uses code formatting and also identified a problem with a comment in the first section that is present in the input code but only of cosmetic relevance.
 
-## Conclusion
-All models fixed the code in a way that it terminates without errors. But when running the examples with the *MUST* tool the first one exists without error on the second one the tool notices a possible deadlock, even though the code exits without reporting any issues. It is also interesting what else the models care about. Especially Claude is here an notable example, one time it does not care about code formatting but on the second try it complains about typos in code comments.
+# Conclusion
+In summary, a lot of errors can be corrected simply by looking at the code. However, you cannot correct things you don't know are wrong. In such cases, tools such as sanitizers and debuggers are of great help.
+
+When it comes to the AI tools, all models fixed the code in a way that it terminates without errors. But when running the examples with the *MUST* tool the first one exits without error. In the second one the tool notices a possible deadlock, even though the code exits without reporting any issues. The error of `&data` being used instead of `data` in example 1 was detected by none of the models.
+
+It is also interesting what else the models care about. Especially Claude is here an notable example, one time it does not care about code formatting but on the second try it complains about typos in code comments. 
+
+In summary, although debugging with AI tools is faster, it is less accurate. 
