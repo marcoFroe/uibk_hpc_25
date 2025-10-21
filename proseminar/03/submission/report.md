@@ -1,6 +1,50 @@
 # Exercise Sheet 02
 
 **Team:** Marco Fröhlich and Lilly Schönherr
+# Task 1:
+For this task, the mistakes of the code were fixed the classic way. 
+
+First, -Wall and -Wextra were enabled in the Makefile. Calling make, produced the following output:
+``` 
+example_1.c: In function 'main':
+example_1.c:13:9: warning: unused variable 'i' [-Wunused-variable]
+   13 |     int i;
+      |         ^
+example_2.c: In function 'main':
+example_2.c:32:28: warning: operation on 'rank' may be undefined [-Wsequence-point]
+   32 |                      (rank = 1 + size) % size, 123, MPI_COMM_WORLD, &status);
+      |                      ~~~~~~^~~~~~~~~~~
+```
+The next step was looking through the code itself. In addition to removing the declaration of the unused variable `i` which was caught by the compiler, the following discoveries and changes were made in example 1:
+- Brackets were added to the loop starting at line 26. This does not change the behaviour of the program but increases its readability. 
+- The send and receive calls read/write to `&data`. As `data` is an array, we do not need the `&` operator here. 
+- Rank 0 sends its data to `ranks 0 - (nprocs - 1)`. As `MPI_Send` is blocking, this will result in a deadlock. We changed the loop header to initialize `i` to 1.
+- The receive call uses `tag2` instead of `tag`; We changed it to use `tag` and deleted `tag2` as a whole. 
+
+Next, we had a look at the code of example 2. 
+- Twice, instead of 1, `sizeof(int) * 2` is used for the number of elements to be sent.
+- In the receive part of the `MPI_Sendrecv` and `MPI_Recv`, `MPI_BYTE` is used instead of our custom data type. 
+- In the receive part of the `MPI_Sendrecv` and `MPI_Recv`, the sender is calculated with `(rank = 1 + size) % size`. The first of these statements was also flagged by the compiler. 
+- The use of the blocking send for a ring buffer will lead to a deadlock; We changed it to the non-blocking version. 
+
+When calling make again after these changes, this was the output:
+``` 
+/usr/site/hpc/spack/v0.19-lcc3-20230919/opt/spack/linux-rocky8-westmere/gcc-12.2.0/openmpi-3.1.6-d2gmn55g7hoinwfuk2lc3ibz6odzujak/include/mpi.h:1555:20: note: declared here
+ 1555 | OMPI_DECLSPEC  int MPI_Isend(const void *buf, int count, MPI_Datatype datatype, int dest,
+      |                    ^~~~~~~~~
+make: *** [Makefile:11: example_2] Error 1
+```
+This error is the result of not looking up the parameters of `MPI_Isend` and naively assuming it has the same signature as `MPI_Send`. After looking up how to use the function and adding an MPI_Request request, everything compiles without complaint.
+
+We then ran the code of example 1 with `/scratch/c703429/software/must-1.9.1/bin/mustrun -n 4 example_1`. The resulting output tells us that MUST detected no MPI usage errors nor any suspicious behavior during this application run.
+
+When repeating this for example 2, there is a `MUST_ERROR_LEAK_DATATYPE` and a `MUST_ERROR_LEAK_REQUEST`. After doing some research, we found that custom MPI datatypes and requests need to be freed at the end of the program. After adding the corresponding calls to the code, the MUST output for example 2 does not contain any errors either. 
+
+In summary, a lot of errors can be corrected simply by looking at the code. However, you cannot correct things you don't know are wrong. In such cases, tools such as sanitizers and debuggers are of great help.
+
+
+
+
 
 # Task 2:
 This task was done without looking at the code at first. We simply asked different AI tool (ChatGPT, Mistral, Claude) to debug the code. For that initially the following prompt was used: 
