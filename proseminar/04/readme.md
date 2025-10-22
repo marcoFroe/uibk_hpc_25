@@ -16,6 +16,8 @@ This exercise consists in extending the heat stencil application of Assignment 2
 - How can you verify the correctness of your applications?
 - Insert the wall times for the sequential version and for 96 cores for `N=768x768` and `T=768*100` into the comparison spreadsheet: https://docs.google.com/spreadsheets/d/1Xjs056g0HRjZwNLuCOxe6xtEH1Yk9u6t6UL-xPfPJKA
 
+> NOTE: Coefficient in the temperature calculation should be lowered to make it more accurate -> not very important just use for both implementation the same coefficient! 
+
 ## Exercise 2 (1.5 Points)
 
 This exercise consists in comparing blocking and non-blocking communication for the heat stencil applications.
