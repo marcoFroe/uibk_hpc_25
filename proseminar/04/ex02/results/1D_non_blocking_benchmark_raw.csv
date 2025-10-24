@@ -1,0 +1,227 @@
+Problem_Size,num_ranks,run_number,time
+1920,2,1.72
+1920,2,1.48
+1920,2,1.53
+1920,2,1.50
+1920,2,1.50
+1920,4,1.52
+1920,4,1.46
+1920,4,1.51
+1920,4,1.44
+1920,4,1.59
+1920,8,1.45
+1920,8,1.45
+1920,8,1.42
+1920,8,1.47
+1920,8,1.51
+1920,16,--------------------------------------------------------------------------
+A system call failed during shared memory initialization that should
+not have.  It is likely that your MPI job will now either abort or
+experience performance degradation.
+
+  Local host:  n003.intern.lcc3.intra.uibk.ac.at
+  System call: open(2) 
+  Error:       Permission denied (errno 13)
+--------------------------------------------------------------------------
+[n002.intern.lcc3.intra.uibk.ac.at:3847370] 15 more processes have sent help message help-opal-shmem-mmap.txt / sys call fail
+[n002.intern.lcc3.intra.uibk.ac.at:3847370] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
+2.51
+1920,16,2.55
+1920,16,2.55
+1920,16,2.54
+1920,16,2.60
+1920,32,2.65
+1920,32,2.71
+1920,32,2.67
+1920,32,2.68
+1920,32,--------------------------------------------------------------------------
+A system call failed during shared memory initialization that should
+not have.  It is likely that your MPI job will now either abort or
+experience performance degradation.
+
+  Local host:  n004.intern.lcc3.intra.uibk.ac.at
+  System call: open(2) 
+  Error:       Permission denied (errno 13)
+--------------------------------------------------------------------------
+[n002.intern.lcc3.intra.uibk.ac.at:3848138] 31 more processes have sent help message help-opal-shmem-mmap.txt / sys call fail
+[n002.intern.lcc3.intra.uibk.ac.at:3848138] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
+2.62
+1920,48,--------------------------------------------------------------------------
+A system call failed during shared memory initialization that should
+not have.  It is likely that your MPI job will now either abort or
+experience performance degradation.
+
+  Local host:  n004.intern.lcc3.intra.uibk.ac.at
+  System call: open(2) 
+  Error:       Permission denied (errno 13)
+--------------------------------------------------------------------------
+[n002.intern.lcc3.intra.uibk.ac.at:3848205] 31 more processes have sent help message help-opal-shmem-mmap.txt / sys call fail
+[n002.intern.lcc3.intra.uibk.ac.at:3848205] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
+2.65
+1920,48,2.66
+1920,48,2.69
+1920,48,2.71
+1920,48,2.74
+1920,64,2.81
+1920,64,2.68
+1920,64,2.69
+1920,64,2.69
+1920,64,2.70
+1920,96,2.67
+1920,96,2.73
+1920,96,2.73
+1920,96,2.66
+1920,96,2.66
+3840,2,4.16
+3840,2,4.10
+3840,2,4.15
+3840,2,4.21
+3840,2,4.28
+3840,4,3.22
+3840,4,3.17
+3840,4,3.16
+3840,4,3.15
+3840,4,3.36
+3840,8,2.59
+3840,8,2.66
+3840,8,2.61
+3840,8,2.58
+3840,8,2.55
+3840,16,4.26
+3840,16,4.31
+3840,16,4.31
+3840,16,4.37
+3840,16,4.39
+3840,32,4.45
+3840,32,4.49
+3840,32,--------------------------------------------------------------------------
+A system call failed during shared memory initialization that should
+not have.  It is likely that your MPI job will now either abort or
+experience performance degradation.
+
+  Local host:  n002.intern.lcc3.intra.uibk.ac.at
+  System call: open(2) 
+  Error:       Permission denied (errno 13)
+--------------------------------------------------------------------------
+[n002.intern.lcc3.intra.uibk.ac.at:3851476] 7 more processes have sent help message help-opal-shmem-mmap.txt / sys call fail
+[n002.intern.lcc3.intra.uibk.ac.at:3851476] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
+4.44
+3840,32,4.45
+3840,32,4.47
+3840,48,4.73
+3840,48,4.53
+3840,48,4.50
+3840,48,4.51
+3840,48,4.50
+3840,64,--------------------------------------------------------------------------
+A system call failed during shared memory initialization that should
+not have.  It is likely that your MPI job will now either abort or
+experience performance degradation.
+
+  Local host:  n002.intern.lcc3.intra.uibk.ac.at
+  System call: open(2) 
+  Error:       Permission denied (errno 13)
+--------------------------------------------------------------------------
+[n002.intern.lcc3.intra.uibk.ac.at:3852547] 1 more process has sent help message help-opal-shmem-mmap.txt / sys call fail
+[n002.intern.lcc3.intra.uibk.ac.at:3852547] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
+4.59
+3840,64,4.50
+3840,64,4.58
+3840,64,4.50
+3840,64,4.56
+3840,96,4.55
+3840,96,4.53
+3840,96,4.53
+3840,96,4.63
+3840,96,4.73
+5760,2,8.52
+5760,2,8.72
+5760,2,8.86
+5760,2,8.62
+5760,2,8.60
+5760,4,5.67
+5760,4,5.70
+5760,4,5.72
+5760,4,5.85
+5760,4,5.66
+5760,8,4.17
+5760,8,4.10
+5760,8,4.16
+5760,8,4.11
+5760,8,4.09
+5760,16,6.03
+5760,16,6.12
+5760,16,6.06
+5760,16,6.08
+5760,16,6.10
+5760,32,6.41
+5760,32,6.27
+5760,32,6.26
+5760,32,6.23
+5760,32,6.23
+5760,48,6.45
+5760,48,6.32
+5760,48,6.39
+5760,48,6.35
+5760,48,6.24
+5760,64,6.58
+5760,64,6.40
+5760,64,6.38
+5760,64,6.47
+5760,64,6.41
+5760,96,6.35
+5760,96,6.63
+5760,96,6.42
+5760,96,6.38
+5760,96,6.44
+7680,2,14.92
+7680,2,14.70
+7680,2,14.54
+7680,2,14.73
+7680,2,14.55
+7680,4,9.50
+7680,4,9.48
+7680,4,9.22
+7680,4,9.32
+7680,4,9.26
+7680,8,6.09
+7680,8,6.07
+7680,8,6.07
+7680,8,6.17
+7680,8,6.06
+7680,16,7.89
+7680,16,7.85
+7680,16,7.83
+7680,16,7.94
+7680,16,7.82
+7680,32,8.01
+7680,32,8.04
+7680,32,8.15
+7680,32,8.00
+7680,32,8.12
+7680,48,8.25
+7680,48,--------------------------------------------------------------------------
+A system call failed during shared memory initialization that should
+not have.  It is likely that your MPI job will now either abort or
+experience performance degradation.
+
+  Local host:  n003.intern.lcc3.intra.uibk.ac.at
+  System call: open(2) 
+  Error:       Permission denied (errno 13)
+--------------------------------------------------------------------------
+[n002.intern.lcc3.intra.uibk.ac.at:3863146] 15 more processes have sent help message help-opal-shmem-mmap.txt / sys call fail
+[n002.intern.lcc3.intra.uibk.ac.at:3863146] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
+8.27
+7680,48,8.27
+7680,48,8.17
+7680,48,8.33
+7680,64,8.39
+7680,64,8.21
+7680,64,8.25
+7680,64,8.18
+7680,64,8.18
+7680,96,8.20
+7680,96,8.22
+7680,96,8.20
+7680,96,8.26
+7680,96,8.20
