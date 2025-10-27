@@ -1,7 +1,7 @@
 CC=mpicc
-CFLAGS=-std=gnu11 -Wall -Wextra
+CFLAGS= -ofast -std=gnu11 -Wall -Wextra
 
-TARGETS= heat_stencil_2D_seq # heat_stencil_2D_mpi
+TARGETS= heat_stencil_2D_seq heat_stencil_2D_mpi heat_stencil_2D_seq_no_if
 
 .PHONY: all
 all: $(TARGETS)
