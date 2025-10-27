@@ -1,11 +1,69 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
-#include <math.h>
 #include <mpi.h>
+#include <stdbool.h>
 
 // based on the heat stencil 2D implementation from the parallel programming ps
 #define IND(y, x) ((y) * (N) + (x))
+#define RESOLUTION_WIDTH 50
+#define RESOLUTION_HEIGHT 50
+
+void printTemperature(double* m, int N, int M) {
+	const char* colors = " .-:=+*^X#%@";
+	const int numColors = 12;
+
+	// boundaries for temperature (for simplicity hard-coded)
+	const double max = 273 + 30;
+	const double min = 273 + 0;
+
+	// set the 'render' resolution
+	int W = RESOLUTION_WIDTH;
+	int H = RESOLUTION_HEIGHT;
+
+	// step size in each dimension
+	int sW = N / W;
+	int sH = M / H;
+
+	// upper wall
+	printf("\t");
+	for(int u = 0; u < W + 2; u++) {
+		printf("X");
+	}
+	printf("\n");
+	// room
+	for(int i = 0; i < H; i++) {
+		// left wall
+		printf("\tX");
+		// actual room
+		for(int j = 0; j < W; j++) {
+			// get max temperature in this tile
+			double max_t = 0;
+			for(int x = sH * i; x < sH * i + sH; x++) {
+				for(int y = sW * j; y < sW * j + sW; y++) {
+					max_t = (max_t < m[IND(x, y)]) ? m[IND(x, y)] : max_t;
+				}
+			}
+			double temp = max_t;
+
+			// pick the 'color'
+			int c = ((temp - min) / (max - min)) * numColors;
+			c = (c >= numColors) ? numColors - 1 : ((c < 0) ? 0 : c);
+
+			// print the average temperature
+			printf("%c", colors[c]);
+		}
+		// right wall
+		printf("X\n");
+	}
+	// lower wall
+	printf("\t");
+	for(int l = 0; l < W + 2; l++) {
+		printf("X");
+	}
+	printf("\n");
+}
+
 
 int failed_malloc() {
     fprintf(stderr, "Memory allocation error\n");
@@ -59,7 +117,7 @@ int main(int argc, char** argv) {
         }
     }
 
-    int[2] source;
+    int source[2];
     if(rank == 0) {    
         srand(time(NULL));
         source[0] = rand() % N; //y
@@ -70,41 +128,48 @@ int main(int argc, char** argv) {
     int upper_rank = (rank == 0) ? MPI_PROC_NULL : rank - 1;
 	int lower_rank = (rank == num_ranks - 1) ? MPI_PROC_NULL : rank + 1;
 
-    int relative_source_y = source[0] - (rank * sec_size);
+    int relative_source_y = source[0] - (rank * sec_size) + 1;
+
+    bool contains_source = false;
 
     if(relative_source_y >= 0 && relative_source_y < sec_size) {
         current[IND(relative_source_y, source[1])] = 333;
-        next[IND(relative_source_y, source[1])] = 333;
+        contains_source = true;
     }
 
     for(int t = 0; t < T; t++) {
-        MPI_Sendrecv(current + 1, N, MPI_DOUBLE, upper_rank, 42, current, N + sec_size + 1, MPI_DOUBLE,
+        MPI_Sendrecv(current + N, N, MPI_DOUBLE, upper_rank, 42, current + N * (sec_size + 1), N, MPI_DOUBLE,
 		             lower_rank, 42, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
 
-		MPI_Sendrecv(current + sec_size, N, MPI_DOUBLE, lower_rank, 43, current, N,
+		MPI_Sendrecv(current + sec_size * N, N, MPI_DOUBLE, lower_rank, 43, current, N,
 		             MPI_DOUBLE, upper_rank, 43, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
 
-        for(int i = 1; i < N - 1; i++) {
-            for(int j = 0; j < N; j++) {
-                if(i == relative_source_y && j == source[1]) {
-                    continue;
-                }
-
+        for(int i = 1; i < sec_size + 1; i++) {
+            double here = current[IND(i, 0)];
+            current[IND(i, 0)] = here + 0.2 * (273 + current[IND(i, 1)] + current[IND(i - 1, 0)] + current[IND(i + 1, 0)] - 4 * here);
+            for(int j = 1; j < N - 1; j++) {
                 double up = current[IND(i - 1, j)];
                 double down = current[IND(i + 1, j)];
-                double left = (j > 0) ? current[IND(i, j - 1)] : current[IND(i, j)];
-                double right = (j < N - 1) ? current[IND(i, j + 1)] : current[IND(i, j)];
-                double here = current[IND(i, j)];
+                double left = (j > 0) ? current[IND(i, j - 1)] : 273;
+                double right = (j < N - 1) ? current[IND(i, j + 1)] : 273;
+                here = current[IND(i, j)];
 
 
-                next[IND(i, j)] = here + 0.2 * (up + down + left + right + (-4 * here));
+                next[IND(i, j)] = here + 0.2 * (up + down + left + right - (4 * here));
             }
+            here = current[IND(i, N - 1)];
+            current[IND(i, N - 1)] = here + 0.2 * (273 + current[IND(i, N - 2)] + current[IND(i - 1, N - 1)] + current[IND(i + 1, N - 1)] - 4 * here);
+        }
+
+        if(contains_source) {
+            next[IND(relative_source_y, source[1])] = 333;
         }
         
         double* temp = current;
         current = next;
         next = temp;
     }
+
     double* aggr;
     if(rank == 0) {
         aggr = malloc(sizeof(double) * N * N);
@@ -114,26 +179,33 @@ int main(int argc, char** argv) {
             failed_malloc();
         }
     }
+    
+    int success = 1;
 
-    MPI_Gather(current + 1, N * sec_size, MPI_DOUBLE, aggr, N * sec_size, MPI_DOUBLE, 0, MPI_COMM_WORLD);
+    for(int i = 1; i < sec_size + 1; i++) {
+        for(int j = 0; j < N; j++) {
+            double temp = current[IND(i, j)];
+            if(273 <= temp && temp <= 273 + 60) continue;
+            success = 0;
+            break;
+        }
+    }
+
+    printf("Verification of rank %d: %s\n", rank, (success) ? "OK" : "FAILED");
+
+    MPI_Gather(current + N, N * sec_size, MPI_DOUBLE, aggr, N * sec_size, MPI_DOUBLE, 0, MPI_COMM_WORLD);
     
     if(rank == 0) {
-        int success = 1;
-        for(int i = 0; i < N; i++) {
-            for(int j = 0; j < N; j++) {
-                double temp = aggr[IND(i, j)];
-                if(273 <= temp && temp <= 273 + 60) continue;
-                success = 0;
-                break;
-            }
-        }
-
-        printf("Verification: %s\n", (success) ? "OK" : "FAILED");
+        printf("Final:");
+        printTemperature(current, N, N);
+        printf("\n");
     }
 
     MPI_Finalize();
     free(current);
     free(next);
-    free(recv);
+    if (rank == 0) {
+        free(aggr);
+    }
     return (success) ? EXIT_SUCCESS : EXIT_FAILURE;
 }
