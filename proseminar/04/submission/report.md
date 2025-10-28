@@ -25,3 +25,16 @@ The results display the arithmetic mean of 5 individual runs for all configurati
 
 It can clearly be seen that the non-blocking implementation is faster for bigger problem sizes. 
 The only exception to this is the 48-rank non-blocking version, which is slower than the 8-rank blocking version.
+
+## 2D Version
+For the 2D implementation basically only the `MPI_SendRecv()` were replaced by `M̀PI_Isend()` and `MPI_IRecv()` calls.
+And the computation order was changed to first calculate the middle cells and after an added `MPI_WaitAll()` the 
+edges get computed.
+
+The results can be seen in the following plot. 
+The results display the arithmetic mean of 5 individual runs for all configurations.
+![2D-comparison.png](2D-comparison.png)
+
+It can be seen that using non-blocking communication basically changed in terms of computation time.
+When looking at the raw data for the biggest used experiment setting the blocking implementation had a mean execution time 
+of $3.24$s whereas the non-blocking took $2.754$s, which is a speedup of $17\%$.
