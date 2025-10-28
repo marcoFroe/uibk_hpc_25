@@ -132,7 +132,7 @@ int main(int argc, char** argv) {
 
     bool contains_source = false;
 
-    if(relative_source_y >= 0 && relative_source_y < sec_size) {
+    if(relative_source_y >= 0 && relative_source_y < sec_size + 2) {
         current[IND(relative_source_y, source[1])] = 333;
         contains_source = true;
     }
@@ -150,8 +150,8 @@ int main(int argc, char** argv) {
             for(int j = 1; j < N - 1; j++) {
                 double up = current[IND(i - 1, j)];
                 double down = current[IND(i + 1, j)];
-                double left = (j > 0) ? current[IND(i, j - 1)] : 273;
-                double right = (j < N - 1) ? current[IND(i, j + 1)] : 273;
+                double left = current[IND(i, j - 1)];
+                double right = current[IND(i, j + 1)];
                 here = current[IND(i, j)];
 
 
