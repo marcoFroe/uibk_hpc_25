@@ -5,7 +5,7 @@
 
 // based on the heat stencil 2D implementation from the parallel programming ps
 #define IND(y, x) ((y) * (N) + (x))
-// #define DEBUG
+#define DEBUG
 
 #define RESOLUTION_WIDTH 20
 #define RESOLUTION_HEIGHT 20
@@ -142,8 +142,9 @@ int main(int argc, char** argv) {
 	// Verification output
 	int test;
 	MPI_Reduce(&success, &test, 1, MPI_INT, MPI_SUM, 0, MPI_COMM_WORLD);
+
 	if(rank == 0) {
-		printf("Verification: %s\n", success - num_ranks ? "OK" : "Failed");
+		printf("Verification: %s\n", (test == num_ranks) ? "OK" : "Failed");
 	}
 #endif
 
