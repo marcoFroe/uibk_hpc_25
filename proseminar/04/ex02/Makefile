@@ -12,8 +12,8 @@ all: $(TARGETS)
 
 # Generic build rule: compile each .c file into an executable
 %: %.c
-	@$(CC) $(CFLAGS) $< -o $@
+	$(CC) $(CFLAGS) $< -o $@
 
 # Clean rule: remove all generated executables
 clean:
-	@rm -f $(TARGETS)
+	rm -f $(TARGETS)

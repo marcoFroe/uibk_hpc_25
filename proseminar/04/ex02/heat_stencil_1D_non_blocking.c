@@ -72,8 +72,8 @@ int main(int argc, char** argv) {
 	// Create local subdomain
 	int sec_size = N / num_ranks;
 	Vector SubSec = createVector(sec_size);
-	for (int i = 0; i < sec_size; i++) {
-    	SubSec[i] = 273; // Default temperature
+	for(int i = 0; i < sec_size; i++) {
+		SubSec[i] = 273; // Default temperature
 	}
 
 	// setup exchange edges
@@ -88,46 +88,48 @@ int main(int argc, char** argv) {
 	int left_rank = (rank == 0) ? MPI_PROC_NULL : rank - 1;
 	int right_rank = (rank == num_ranks - 1) ? MPI_PROC_NULL : rank + 1;
 
-    // Heat source calculations
+	// Heat source calculations
 	int global_source_start = rank * sec_size;
 	int global_source_end = global_source_start + sec_size;
 
-    // Requests
-    int num_rq=4;
-    MPI_Request rq_array[num_rq];
+	// Requests
+	int num_rq = 4;
+	MPI_Request rq_array[num_rq];
 
 	// for each time step ..
 	for(int t = 0; t < T; t++) {
-        // Heat source stays constant
-		if (source_x >= global_source_start && source_x < global_source_end) {
-    		int local_source_pos = source_x - global_source_start;
-    		SubSec[local_source_pos] = 273 + 60; 
+		// Heat source stays constant
+		if(source_x >= global_source_start && source_x < global_source_end) {
+			int local_source_pos = source_x - global_source_start;
+			SubSec[local_source_pos] = 273 + 60;
 		}
 
 		// exchange boundaries -> non blocking
-        MPI_Isend(&SubSec[0], 1, MPI_DOUBLE, left_rank, GOOD_TAG, MPI_COMM_WORLD, rq_array);
-        MPI_Isend(&SubSec[sec_size-1], 1, MPI_DOUBLE, right_rank, GOOD_TAG,MPI_COMM_WORLD, rq_array+2);
+		MPI_Isend(&SubSec[0], 1, MPI_DOUBLE, left_rank, GOOD_TAG, MPI_COMM_WORLD, rq_array);
+		MPI_Isend(&SubSec[sec_size - 1], 1, MPI_DOUBLE, right_rank, GOOD_TAG, MPI_COMM_WORLD,
+		          rq_array + 2);
 
-        MPI_Irecv(&left, 1, MPI_DOUBLE, left_rank, GOOD_TAG, MPI_COMM_WORLD,rq_array+1);
-        MPI_Irecv(&right, 1, MPI_DOUBLE, right_rank, GOOD_TAG, MPI_COMM_WORLD, rq_array+3);
-		
-        // .. we propagate the temperature inner cells
-		for(long long i = 1; i < sec_size-1; i++) {
+		MPI_Irecv(&left, 1, MPI_DOUBLE, left_rank, GOOD_TAG, MPI_COMM_WORLD, rq_array + 1);
+		MPI_Irecv(&right, 1, MPI_DOUBLE, right_rank, GOOD_TAG, MPI_COMM_WORLD, rq_array + 3);
+
+		// .. we propagate the temperature inner cells
+		for(long long i = 1; i < sec_size - 1; i++) {
 			// get temperature at current position
 			value_t tc = SubSec[i];
 
 			// get temperatures of adjacent cells
 			value_t tl = SubSec[i - 1];
-			value_t tr =  SubSec[i + 1];
+			value_t tr = SubSec[i + 1];
 
 			// compute new temperature at current position
 			B[i] = tc + 0.2 * (tl + tr + (-2 * tc));
 		}
 
-        // Calculate edges
-        MPI_Waitall(num_rq, rq_array, MPI_STATUS_IGNORE);
-        B[0] = SubSec[0]+0.2 *(left+SubSec[1]+(-2*SubSec[0]));
-        B[sec_size-1] = SubSec[sec_size-1]+0.2 *(SubSec[sec_size-2]+right+(-2*SubSec[sec_size-1]));
+		// Calculate edges
+		MPI_Waitall(num_rq, rq_array, MPI_STATUS_IGNORE);
+		B[0] = SubSec[0] + 0.2 * (left + SubSec[1] + (-2 * SubSec[0]));
+		B[sec_size - 1] = SubSec[sec_size - 1] +
+		                  0.2 * (SubSec[sec_size - 2] + right + (-2 * SubSec[sec_size - 1]));
 
 		// swap matrices (just pointers, not content)
 		Vector H = SubSec;
