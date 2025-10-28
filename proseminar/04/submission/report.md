@@ -55,6 +55,6 @@ The results can be seen in the following plot.
 The results display the arithmetic mean of 5 individual runs for all configurations.
 ![2D-comparison.png](2D-comparison.png)
 
-It can be seen that using non-blocking communication basically changed in terms of computation time.
+It can be seen that using non-blocking communication does not change much in terms of computation time.
 When looking at the raw data for the biggest used experiment setting the blocking implementation had a mean execution time 
 of $3.24$s whereas the non-blocking took $2.754$s, which is a speedup of $17\%$.
