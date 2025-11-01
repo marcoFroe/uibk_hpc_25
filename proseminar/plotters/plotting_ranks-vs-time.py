@@ -3,39 +3,56 @@ import matplotlib.pyplot as plt
 
 def plot_time_vs_num_ranks(csv_file, output_file=None):
     """
-    Plots time vs. num_ranks in one figure, grouped by problem size and type.
-    Averages time if duplicates exist.
-    """
+    Plot average execution time versus number of ranks, grouped by problem size.
 
+    Parameters
+    ----------
+    csv_file : str
+        Path to the CSV file containing columns:
+        [Problem_Size, num_ranks, time]
+    output_file : str, optional
+        Path to save the output plot. If None, the plot is only displayed.
+    """
+    # Load CSV file
     df = pd.read_csv(csv_file)
 
-    required_cols = {'Problem_Size', 'num_ranks', 'time', 'type'}
+    # Validate required columns
+    required_cols = {'Problem_Size', 'num_ranks', 'time'}
     if not required_cols.issubset(df.columns):
-        raise ValueError(f"DataFrame must contain columns: {required_cols}")
+        raise ValueError(f"CSV file must contain columns: {required_cols}")
 
-    # Average duplicates
-    grouped = (
-        df.groupby(['Problem_Size', 'num_ranks', 'type'], as_index=False)
-          .agg({'time': 'mean'})
+    # Compute average time for duplicates
+    avg_df = (
+        df.groupby(['Problem_Size', 'num_ranks'], as_index=False)['time']
+          .mean()
+          .sort_values(['Problem_Size', 'num_ranks'])
     )
 
-    plt.figure(figsize=(9, 6))
+    # Plot
+    fig, ax = plt.subplots(figsize=(9, 6))
 
-    # Plot all combinations on one plot
-    for (psize, t), subdf in grouped.groupby(['Problem_Size', 'type']):
-        label = f"Size {psize}, Type {t}"
-        plt.plot(subdf['num_ranks'], subdf['time'], marker='o', label=label)
+    for psize, group in avg_df.groupby('Problem_Size'):
+        ax.plot(
+            group['num_ranks'],
+            group['time'],
+            marker='o',
+            label=f"Problem Size {psize}"
+        )
 
-    plt.title("Time vs. Number of Ranks")
-    plt.xlabel("Number of Ranks")
-    plt.ylabel("Average Time")
-    plt.yscale("log")
-    plt.grid(True, linestyle='--', alpha=0.6)
-    plt.legend(title="Groups", bbox_to_anchor=(1.05, 1), loc='upper left')
+    # Formatting
+    ax.set_title("Time vs. Number of Ranks")
+    ax.set_xlabel("Number of Ranks")
+    ax.set_ylabel("Average Time (s)")
+    ax.set_yscale("log")
+    ax.grid(True, linestyle='--', alpha=0.6)
+    ax.legend(title="Problem Size", bbox_to_anchor=(1.05, 1), loc='upper left')
+
     plt.tight_layout()
 
-    if output_file is not None:
+    # Save if requested
+    if output_file:
         plt.savefig(output_file, bbox_inches='tight')
+
     plt.show()
 
 
