@@ -106,6 +106,8 @@ int main(int argc, char** argv) {
 	clock_gettime(CLOCK_MONOTONIC, &end);
 
 	printf("%d,%lf\n", num_particles, time_diff(start, end));
+	free(total_forces);
+	free(particles);
 	return EXIT_SUCCESS;
 }
 
