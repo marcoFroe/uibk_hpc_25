@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <time.h>
 
-#define G (6.67430e-11) // actual Gravitational constant has exponent 10^-11
+#define G (6.67430e-11) // actual Gravitational constant
 #define MAX_POS 100
 #define MAX_VELO 5
 #define MAX_MASS 25000
