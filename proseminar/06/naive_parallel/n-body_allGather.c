@@ -39,7 +39,7 @@ void sumVectors(vector_t* v1, vector_t* v2);
 void randomVector(vector_t* vector, int max_value);
 int parser(char* toParse);
 void writeToFile(vector_t* pos, FILE* datafile);
-void printParticles(particle_t* particles, int num_particles);
+void printParticles(particle_t* particles, int num_particles, FILE* output);
 void create_mpi_type(void);
 
 int main(int argc, char** argv) {
@@ -57,10 +57,9 @@ int main(int argc, char** argv) {
 	create_mpi_type();
 
 #ifdef PRINT_SIM
-	// clear output file
+	FILE* output;
 	if(rank == 0) {
-		FILE* tmp = fopen(FILE_NAME, "w");
-		fclose(tmp);
+		output = fopen(FILE_NAME, "w");
 	}
 #endif
 
@@ -89,7 +88,7 @@ int main(int argc, char** argv) {
 
 #ifdef PRINT_SIM
 	if(rank == 0) {
-		printParticles(particles, total_num_particles);
+		printParticles(particles, total_num_particles, output);
 	}
 #endif
 
@@ -120,10 +119,14 @@ int main(int argc, char** argv) {
 
 #ifdef PRINT_SIM
 		if((time_steps % 10) == 0 && rank == 0) {
-			printParticles(particles, total_num_particles);
+			printParticles(particles, total_num_particles, output);
 		}
 #endif
 	}
+
+#ifdef PRINT_SIM
+	fclose(output);
+#endif
 	free(total_forces);
 	free(particles);
 	MPI_Type_free(&MPI_VECTOR_T);
@@ -206,8 +209,7 @@ void writeToFile(vector_t* pos, FILE* datafile) {
 	fprintf(datafile, "%lf %lf %lf\n", pos->x, pos->y, pos->z);
 }
 
-void printParticles(particle_t* particles, int num_particles) {
-	FILE* output = fopen(FILE_NAME, "a");
+void printParticles(particle_t* particles, int num_particles, FILE* output) {
 	for(int i = 0; i < num_particles; i++) {
 		writeToFile(&particles[i].pos, output);
 	}
