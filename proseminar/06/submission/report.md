@@ -3,20 +3,20 @@
 **Team:** Marco Fröhlich
 
 # Task 1:
-We parallelized the implementation from Assignment 5 using `MPI_Allgather(...)`. The parallel version does not take advantage of the force symmetries, except that the algorithm for calculation is the same as in the sequential version. This is because we wanted to minimize the amount of communication necessary. Each rank gets a section of particles assigned and computes everything for them. Before beginning the computation loop the initial positions and masses are exchanged between the ranks, since those are also randomly set by the ranks responsible. Due to time limitations' no optimized calculation approach like *Barnes-Hut* was implemented. 
+We parallelized the implementation from Assignment 5 using `MPI_Allgather(...)`. While the algorithm is mostly the same as the sequential version, the parallel version does not take advantage of the force symmetries. Instead, each rank is assigned a subset of the particles whose forces it calculates and then propagates to the other ranks. We opted for this aproach to minimize the amount of communication necessary. Due to time limitations, no optimized calculation approach like *Barnes-Hut* was implemented. 
 
 All measurements are the arithmetic mean of 5 individual runs per configuration. The code was compiled with `-Ofast` with gcc-12 and openmpi-3-16. The measured time is the wall time by `/usr/bin/time` and includes setup and writing the output every 10th time step to a file using `fprintf(...)`.
 
-In the following plot the execution times depending on the number of ranks are shown. Interestingly the using only 2 ranks increases the computation time for smaller problem sizes. Also for smaller number of bodies the increase of ranks those not speed up the computation significantly.
+In the following plot the execution times depending on the number of ranks are shown. Here, the behaviour for small problem sizes is especially interesting as increasing the number of ranks does not lead to any significant speedup of the computation. In fact, increasing the number of ranks from two to four actually results in a slowdown.
 ![time-vs-ranks](./t1-time_vs_num_ranks.png)
 
-Here the speed-up depending on the number of ranks is shown. Non surprisingly the bigger the problem the more it benefits from more computation power in form of more ranks. For 1000 and 2500 bodies the speed-up flattens out with more ranks, whereas the for more there is still a clear speed-up visible. But the speed-up is never linear, since $t_p < t_s/p$
+Here, the speedup depending on the number of ranks is shown. As expected, the bigger the problem the more the computations benefit from the added computation power of additional ranks. But also for large problem sizes the speedup is never linear, since $t_p < t_s/p$
 ![speedup-vs-ranks](./t1-speedup_vs_num_ranks.png)
 
-The efficiency is for 5000 particles and 96 ranks is: $\text{efficiency}_{96}= \frac{10.67}{96} \approx 0.11$. This proves the argument from earlier that the speed-up is not linear.
+For 5000 particles and 96 ranks we achieve an efficiency of $\text{efficiency}_{96}= \frac{10.67}{96} \approx 0.11$, illustrating once again that the speedup is not linear.
 
 # Task 2:
-When comparing the uniform with coordinates $x,y,z \in \{-100,100\}$ distribution from Task 1 with a distribution which only uses 10%  of the available space, $x,y,z \in \{-10,10\}$, it can be observed that the execution times are for more ranks are slightly faster. Since the scales are in log a concrete example with values for 5000 particles can be seen in the following table:
+When comparing the uniform distribution of coordinates $x,y,z \in \{-100,100\}$ used in Task 1 with a distribution which only uses 10%  of the available space, i.e. $x,y,z \in \{-10,10\}$, a slight increase in execution speed for a higher number of ranks can be observed. Since the scales are in log a concrete example with values for 5000 particles can be seen in the following table:
 
 |ranks|time uniform|time corner|
 |---|---|---|
@@ -25,13 +25,13 @@ When comparing the uniform with coordinates $x,y,z \in \{-100,100\}$ distributio
 
 ![time-vs-ranks](./t2-time_vs_num_ranks.png)
 
-This also reflects in the speed-up where 96 ranks on 5000 particles now achieve a value of 11.96 instead of 10.67 for the uniform distribution.
+This is also reflected in the speedup where 96 ranks on 5000 particles now achieve a value of 11.96 instead of 10.67 as they did for the uniform distribution.
 
 ![speedup-vs-ranks](./t2-speedup_vs_num_ranks.png)
 
-In terms of efficiency this boosts the value for 5000 particles to $\text{efficiency}_{96}= \frac{11.96}{96} \approx 0.12$. Which is a significant (not) increase of 0.1.
+In terms of efficiency, this boosts the value for 5000 particles to $\text{efficiency}_{96}= \frac{11.96}{96} \approx 0.12$, which is an increase of 0.01.
 
-These results are to be expected since the used algorithm is the most naive one possible which can not take advantage of any spacial optimization. If for example the Barnes-Hut algorithm had been used I expected a decrease in performance the closer the particles are together, since then the distance condition can not be fulfilled, and one ends up again at calculating the forces between each pair.
+These results were to be expected. After all, our algorithm is very naive and does not include any spacial optimization. If, for example, the Barnes-Hut algorithm had been used, a decrease in performance for the non-uniform distribution was to be expected as the distance condition would be fulfilled less frequently, resulting in the approxomation degenerating to the naive calculation of the forces between each pair.
 
 
 # Sidenote
