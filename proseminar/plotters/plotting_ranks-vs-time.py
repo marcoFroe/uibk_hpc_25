@@ -44,6 +44,10 @@ def plot_time_vs_num_ranks(csv_file, output_file=None):
     ax.set_xlabel("Number of Ranks")
     ax.set_ylabel("Average Time (s)")
     ax.set_yscale("log")
+
+    # Use the actual num_ranks values as x-ticks (sorted, formatted as integers if appropriate)
+    x_vals = sorted(avg_df['num_ranks'].unique())
+    plt.xticks(x_vals, rotation=45, ha='right')
     ax.grid(True, linestyle='--', alpha=0.6)
     ax.legend(title="Problem Size", bbox_to_anchor=(1.05, 1), loc='upper left')
 
@@ -57,4 +61,4 @@ def plot_time_vs_num_ranks(csv_file, output_file=None):
 
 
 if __name__ == '__main__':
-    plot_time_vs_num_ranks("2D_comparison.csv")
+    plot_time_vs_num_ranks("proseminar/06/naive_parallel/results_uniform.csv", "proseminar/06/submission/time_vs_num_ranks.png")
