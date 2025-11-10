@@ -5,7 +5,8 @@
 #include <time.h>
 
 #define G (6.67430e-11) // actual Gravitational constant
-#define MAX_POS 100
+#define MAX_POS 10      // Corner
+// #define MAX_POS 100  //uniform
 #define MAX_VELO 1
 #define MAX_MASS 25000
 #define FILE_NAME "data.dat"
