@@ -36,7 +36,7 @@ void sumVectors(vector_t* v1, vector_t* v2);
 void randomVector(vector_t* vector, int max_value);
 int parser(char* toParse);
 void writeToFile(vector_t* pos, FILE* datafile);
-void printParticles(particle_t* particles, int num_particles);
+void printParticles(particle_t* particles, int num_particles, FILE* output);
 
 int main(int argc, char** argv) {
 	if(argc != 3) {
@@ -47,8 +47,11 @@ int main(int argc, char** argv) {
 
 #ifdef PRINT_SIM
 	// clear output file
-	FILE* tmp = fopen(FILE_NAME, "w");
-	fclose(tmp);
+	FILE* output = fopen(FILE_NAME, "w");
+	if(output == NULL) {
+		fprintf(stderr, "Error while opening file!");
+		return EXIT_FAILURE;
+	}
 #endif
 
 	int num_particles = parser(argv[1]);
@@ -68,7 +71,7 @@ int main(int argc, char** argv) {
 	}
 
 #ifdef PRINT_SIM
-	printParticles(particles, num_particles);
+	printParticles(particles, num_particles, output);
 #endif
 
 	vector_t* total_forces = calloc(num_particles, sizeof(vector_t));
@@ -97,12 +100,15 @@ int main(int argc, char** argv) {
 
 #ifdef PRINT_SIM
 		if(time_steps % 10 == 0) {
-			printParticles(particles, num_particles);
+			printParticles(particles, num_particles, output);
 		}
 #endif
 	}
 	free(total_forces);
 	free(particles);
+#ifdef PRINT_SIM
+	fclose(output);
+#endif
 	return EXIT_SUCCESS;
 }
 
@@ -181,8 +187,7 @@ void writeToFile(vector_t* pos, FILE* datafile) {
 	fprintf(datafile, "%lf %lf %lf\n", pos->x, pos->y, pos->z);
 }
 
-void printParticles(particle_t* particles, int num_particles) {
-	FILE* output = fopen(FILE_NAME, "a");
+void printParticles(particle_t* particles, int num_particles, FILE* output) {
 	for(int i = 0; i < num_particles; i++) {
 		writeToFile(&particles[i].pos, output);
 	}

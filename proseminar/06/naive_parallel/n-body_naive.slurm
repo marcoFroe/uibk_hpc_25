@@ -10,16 +10,16 @@
 
 ## EXPERIMENTS ##
 REPEATS=5
-PROBLEMSIZES=(1000 2000 3000 4000 5000 10000)
-RANKS=(1 6 12 24 36 48 60 96)
+PROBLEMSIZES=(1000 2500 5000 7500 10000)
+RANKS=(1 2 4 8 16 32 64 96)
 OUTPUT_FILE="results_naive.csv"
 
 # Start fresh each time
 echo "Problem_Size,time,num_ranks" > "$OUTPUT_FILE"
 
 for size in "${PROBLEMSIZES[@]}"; do
-    for ((i=1; i<=REPEATS; i++)); do
-        for num_rank in "${RANKS[@]}"; do
+    for num_rank in "${RANKS[@]}"; do
+        for ((i=1; i<=REPEATS; i++)); do
             if [ "$num_rank" -eq 1 ]; then
                 TIME=$(/usr/bin/time -f "%e" ./n-body_seq "$size" 100 2>&1)
             else

@@ -57,9 +57,14 @@ int main(int argc, char** argv) {
 	create_mpi_type();
 
 #ifdef PRINT_SIM
-	FILE* output;
+	FILE* output = NULL;
 	if(rank == 0) {
 		output = fopen(FILE_NAME, "w");
+		if(output == NULL) {
+			fprintf(stderr, "Error while opening file!");
+			MPI_Abort(MPI_COMM_WORLD, EXIT_FAILURE);
+			return EXIT_FAILURE;
+		}
 	}
 #endif
 
@@ -85,6 +90,34 @@ int main(int argc, char** argv) {
 		randomVector(&particles[i].pos, MAX_POS);
 		randomVector(&particles[i].velo, MAX_VELO);
 	}
+
+	// gather all initial positions and mass and apply to all particles
+	vector_t* temp_pos = malloc(sizeof(vector_t) * total_num_particles);
+	if(temp_pos == NULL) {
+		fprintf(stderr, "Error while allocating memory!");
+		free(particles);
+		MPI_Abort(MPI_COMM_WORLD, EXIT_FAILURE);
+		return EXIT_FAILURE;
+	}
+	double* temp_mass = malloc(sizeof(double) * total_num_particles);
+	if(temp_mass == NULL) {
+		fprintf(stderr, "Error while allocating memory!");
+		free(particles);
+		free(temp_pos);
+		MPI_Abort(MPI_COMM_WORLD, EXIT_FAILURE);
+		return EXIT_FAILURE;
+	}
+	MPI_Allgather(&particles[rank_particles * rank].mass, rank_particles, MPI_DOUBLE, temp_mass,
+	              rank_particles, MPI_DOUBLE, MPI_COMM_WORLD);
+
+	MPI_Allgather(&particles[rank_particles * rank].pos, rank_particles, MPI_VECTOR_T, temp_pos,
+	              rank_particles, MPI_VECTOR_T, MPI_COMM_WORLD);
+	for(int i = 0; i < total_num_particles; i++) {
+		particles[i].pos = temp_pos[i];
+		particles[i].mass = temp_mass[i];
+	}
+	free(temp_pos);
+	free(temp_mass);
 
 #ifdef PRINT_SIM
 	if(rank == 0) {
@@ -125,7 +158,9 @@ int main(int argc, char** argv) {
 	}
 
 #ifdef PRINT_SIM
-	fclose(output);
+	if(rank == 0) {
+		fclose(output);
+	}
 #endif
 	free(total_forces);
 	free(particles);
