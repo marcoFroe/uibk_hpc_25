@@ -136,6 +136,9 @@ int main(int argc, char** argv) {
 	for(int t = 0; t < time_steps; t++) {
 		for(int outer = 0; outer < total_num_particles; outer++) {
 			for(int inner = rank_particles * rank; inner < rank_particles * (rank + 1); inner++) {
+				if(i outer == inner) {
+					continue;
+				}
 				vector_t forceVector = calcForceVector(particles[inner], particles[outer]);
 				sumVectors(total_forces + inner, &forceVector);
 			}
