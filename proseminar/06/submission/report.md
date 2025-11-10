@@ -33,4 +33,6 @@ In terms of efficiency this boosts the value for 5000 particles to $\text{effici
 
 These results are to be expected since the used algorithm is the most naive one possible which can not take advantage of any spacial optimization. If for example the Barnes-Hut algorithm had been used I expected a decrease in performance the closer the particles are together, since then the distance condition can not be fulfilled, and one ends up again at calculating the forces between each pair.
 
+
+# Sidenote
 A nice comparision between different implementation for the *N-Body Problem* can be found in the paper *[On Distributed Gravitational N-Body Simulations](https://arxiv.org/abs/2203.08966)* by Alexander Brandt, which also included [Code](https://github.com/alexgbrandt/Parallel-NBody/). The code was not executable on the LCC3 due to missing packages for the visualization.
