@@ -35,4 +35,4 @@ These results are to be expected since the used algorithm is the most naive one 
 
 
 # Sidenote
-A nice comparision between different implementation for the *N-Body Problem* can be found in the paper *[On Distributed Gravitational N-Body Simulations](https://arxiv.org/abs/2203.08966)* by Alexander Brandt, which also included [Code](https://github.com/alexgbrandt/Parallel-NBody/). The code was not executable on the LCC3 due to missing packages for the visualization.
+A nice comparison between different implementation for the *N-Body Problem* can be found in the paper *[On Distributed Gravitational N-Body Simulations](https://arxiv.org/abs/2203.08966)* by Alexander Brandt, which also included [Code](https://github.com/alexgbrandt/Parallel-NBody/). The code was not executable on the LCC3 due to missing packages for the visualization.
