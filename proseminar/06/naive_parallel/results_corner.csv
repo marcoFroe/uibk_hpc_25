@@ -9,18 +9,7 @@ Problem_Size,time,num_ranks
 1000,1.55,2
 1000,1.54,2
 1000,1.56,2
-1000,--------------------------------------------------------------------------
-A system call failed during shared memory initialization that should
-not have.  It is likely that your MPI job will now either abort or
-experience performance degradation.
-
-  Local host:  n002.intern.lcc3.intra.uibk.ac.at
-  System call: open(2) 
-  Error:       Permission denied (errno 13)
---------------------------------------------------------------------------
-[n002.intern.lcc3.intra.uibk.ac.at:329026] 3 more processes have sent help message help-opal-shmem-mmap.txt / sys call fail
-[n002.intern.lcc3.intra.uibk.ac.at:329026] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
-1.12,4
+1000,1.12,4
 1000,1.16,4
 1000,1.13,4
 1000,1.09,4
@@ -34,18 +23,7 @@ experience performance degradation.
 1000,0.97,16
 1000,0.99,16
 1000,0.96,16
-1000,--------------------------------------------------------------------------
-A system call failed during shared memory initialization that should
-not have.  It is likely that your MPI job will now either abort or
-experience performance degradation.
-
-  Local host:  n002.intern.lcc3.intra.uibk.ac.at
-  System call: open(2) 
-  Error:       Permission denied (errno 13)
---------------------------------------------------------------------------
-[n002.intern.lcc3.intra.uibk.ac.at:329734] 1 more process has sent help message help-opal-shmem-mmap.txt / sys call fail
-[n002.intern.lcc3.intra.uibk.ac.at:329734] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
-0.96,16
+1000,0.96,16
 1000,0.96,32
 1000,0.93,32
 1000,0.97,32
@@ -75,36 +53,14 @@ experience performance degradation.
 2500,3.72,4
 2500,3.70,4
 2500,3.67,4
-2500,--------------------------------------------------------------------------
-A system call failed during shared memory initialization that should
-not have.  It is likely that your MPI job will now either abort or
-experience performance degradation.
-
-  Local host:  n002.intern.lcc3.intra.uibk.ac.at
-  System call: open(2) 
-  Error:       Permission denied (errno 13)
---------------------------------------------------------------------------
-[n002.intern.lcc3.intra.uibk.ac.at:331493] 3 more processes have sent help message help-opal-shmem-mmap.txt / sys call fail
-[n002.intern.lcc3.intra.uibk.ac.at:331493] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
-3.73,4
+2500,3.73,4
 2500,2.48,8
 2500,2.44,8
 2500,2.45,8
 2500,2.42,8
 2500,2.59,8
 2500,1.83,16
-2500,--------------------------------------------------------------------------
-A system call failed during shared memory initialization that should
-not have.  It is likely that your MPI job will now either abort or
-experience performance degradation.
-
-  Local host:  n003.intern.lcc3.intra.uibk.ac.at
-  System call: open(2) 
-  Error:       Permission denied (errno 13)
---------------------------------------------------------------------------
-[n002.intern.lcc3.intra.uibk.ac.at:332329] 11 more processes have sent help message help-opal-shmem-mmap.txt / sys call fail
-[n002.intern.lcc3.intra.uibk.ac.at:332329] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
-1.81,16
+2500,1.81,16
 2500,1.82,16
 2500,1.82,16
 2500,1.84,16
@@ -145,18 +101,7 @@ experience performance degradation.
 5000,7.16,8
 5000,4.36,16
 5000,4.39,16
-5000,--------------------------------------------------------------------------
-A system call failed during shared memory initialization that should
-not have.  It is likely that your MPI job will now either abort or
-experience performance degradation.
-
-  Local host:  n003.intern.lcc3.intra.uibk.ac.at
-  System call: open(2) 
-  Error:       Permission denied (errno 13)
---------------------------------------------------------------------------
-[n002.intern.lcc3.intra.uibk.ac.at:338923] 15 more processes have sent help message help-opal-shmem-mmap.txt / sys call fail
-[n002.intern.lcc3.intra.uibk.ac.at:338923] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
-4.34,16
+5000,4.34,16
 5000,4.41,16
 5000,4.38,16
 5000,3.00,32
