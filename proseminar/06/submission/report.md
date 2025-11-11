@@ -1,6 +1,6 @@
 # Exercise Sheet 06
 
-**Team:** Marco Fröhlich
+**Team:** Marco Fröhlich and Lilly Schönherr
 
 # Task 1:
 We parallelized the implementation from Assignment 5 using `MPI_Allgather(...)`. While the algorithm is mostly the same as the sequential version, the parallel version does not take advantage of the force symmetries. Instead, each rank is assigned a subset of the particles whose forces it calculates and then propagates to the other ranks. We opted for this aproach to minimize the amount of communication necessary. Due to time limitations, no optimized calculation approach like *Barnes-Hut* was implemented. 
