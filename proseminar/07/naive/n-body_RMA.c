@@ -130,19 +130,23 @@ int main(int argc, char** argv) {
 	                         MPI_INFO_NULL, MPI_COMM_WORLD, &pos_win));
 
 	MPI_CHECK(MPI_Win_fence(0, mass_win));
+	for(int i = 0; i < num_ranks; i++) {
+		if(i == rank) {
+			continue;
+		}
+		MPI_CHECK(MPI_Get(temp_mass + rank_particles * i, rank_particles, MPI_DOUBLE, i,
+		                  rank_particles * i, rank_particles, MPI_DOUBLE, mass_win));
+	}
+
+	MPI_CHECK(MPI_Win_fence(0, mass_win));
 	MPI_CHECK(MPI_Win_fence(0, pos_win));
 	for(int i = 0; i < num_ranks; i++) {
 		if(i == rank) {
 			continue;
 		}
-
-		MPI_CHECK(MPI_Get(temp_mass + rank_particles * i, rank_particles, MPI_DOUBLE, i,
-		                  rank_particles * i, rank_particles, MPI_DOUBLE, mass_win));
-
 		MPI_CHECK(MPI_Get(temp_pos + rank_particles * i, rank_particles, MPI_VECTOR_T, i,
 		                  rank_particles * i, rank_particles, MPI_VECTOR_T, pos_win));
 	}
-	MPI_CHECK(MPI_Win_fence(0, mass_win));
 	MPI_CHECK(MPI_Win_fence(0, pos_win));
 
 	// Update local particles with gathered data
@@ -153,8 +157,6 @@ int main(int argc, char** argv) {
 
 	MPI_CHECK(MPI_Win_free(&mass_win));
 	MPI_CHECK(MPI_Win_free(&pos_win));
-	printf("Rank %d came here without errors.\n", rank);
-
 #ifdef PRINT_SIM
 	if(rank == 0) {
 		printParticles(particles, total_num_particles, output);
@@ -182,6 +184,7 @@ int main(int argc, char** argv) {
 				sumVectors(total_forces + inner, &forceVector);
 			}
 		}
+		MPI_Barrier(MPI_COMM_WORLD);
 
 		MPI_CHECK(MPI_Win_fence(0, force_win));
 
@@ -203,7 +206,7 @@ int main(int argc, char** argv) {
 		}
 
 #ifdef PRINT_SIM
-		if((time_steps % 10) == 0 && rank == 0) {
+		if((t % 10) == 0 && rank == 0) {
 			printParticles(particles, total_num_particles, output);
 		}
 #endif

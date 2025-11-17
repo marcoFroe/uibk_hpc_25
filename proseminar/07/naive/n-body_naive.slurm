@@ -5,7 +5,9 @@
 #SBATCH --job-name=n-body_mpi
 #SBATCH --output=%x_%j_%N.out
 #SBATCH --exclusive
-#SBATCH --ntasks=16
+#SBATCH --ntasks=4
+#SBATCH -N 2
+#SBATCH --tasks-per-node=2
 
 
 ## EXPERIMENTS ##

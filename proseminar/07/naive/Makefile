@@ -18,5 +18,5 @@ all: $(TARGETS)
 clean:
 	rm -f $(TARGETS) *.out
 
-debug: CFLAGS=-g -O0 -Wall -Wextra -Wpedantic -lm
+debug: CFLAGS=-g -O0 -Wall -Wextra -Wpedantic -lm -DPRINT_SIM
 debug: all
