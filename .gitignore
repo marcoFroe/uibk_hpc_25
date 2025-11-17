@@ -8,3 +8,5 @@ notes.md
 /.idea/
 compile_flags.txt
 take_away.txt
+*.dat
+*.gif
