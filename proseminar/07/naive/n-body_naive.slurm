@@ -5,7 +5,7 @@
 #SBATCH --job-name=n-body_mpi
 #SBATCH --output=%x_%j_%N.out
 #SBATCH --exclusive
-#SBATCH --ntasks=96
+#SBATCH --ntasks=16
 
 
 ## EXPERIMENTS ##
@@ -33,6 +33,6 @@
 ## PLOTTING ##
 
 
-/usr/bin/time -f "%e" mpiexec -n "$ranks" ./n-body_allGather 5000 100
- gnuplot ./particle.plt
+/usr/bin/time -f "%e" mpiexec -n "$ranks" ./n-body_RMA 100 20
+#gnuplot ./particle.plt
 

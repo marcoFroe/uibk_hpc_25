@@ -1,17 +1,30 @@
 #include <math.h>
 #include <mpi.h>
+#include <stddef.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
 
 #define G (6.67430e-11) // actual Gravitational constant
-//#define MAX_POS 10      // Corner
-#define MAX_POS 100  //uniform
+// #define MAX_POS 10      // Corner
+#define MAX_POS 100 // uniform
 #define MAX_VELO 1
 #define MAX_MASS 25000
 #define FILE_NAME "data.dat"
 #define DT (0.1)
-//#define PRINT_SIM
+// #define PRINT_SIM
+
+// generated with AI
+#define MPI_CHECK(err) \
+	do { \
+		if((err) != MPI_SUCCESS) { \
+			char err_str[MPI_MAX_ERROR_STRING]; \
+			int err_len; \
+			MPI_Error_string((err), err_str, &err_len); \
+			fprintf(stderr, "[Rank %d] MPI Error: %s\n", rank, err_str); \
+			MPI_Abort(MPI_COMM_WORLD, EXIT_FAILURE); \
+		} \
+	} while(0);
 
 typedef struct {
 	double x;
@@ -79,21 +92,21 @@ int main(int argc, char** argv) {
 
 	int time_steps = parser(argv[2]);
 
-	particle_t* particles = malloc(sizeof(particle_t) * total_num_particles);
+	particle_t* particles = calloc(total_num_particles, sizeof(particle_t));
 	if(particles == NULL) {
 		fprintf(stderr, "Error while allocating memory!");
 		return EXIT_FAILURE;
 	}
 
 	// gather all initial positions and mass and apply to all particles
-	vector_t* temp_pos = malloc(sizeof(vector_t) * total_num_particles);
+	vector_t* temp_pos = calloc(total_num_particles, sizeof(vector_t));
 	if(temp_pos == NULL) {
 		fprintf(stderr, "Error while allocating memory!");
 		free(particles);
 		MPI_Abort(MPI_COMM_WORLD, EXIT_FAILURE);
 		return EXIT_FAILURE;
 	}
-	double* temp_mass = malloc(sizeof(double) * total_num_particles);
+	double* temp_mass = calloc(total_num_particles, sizeof(double));
 	if(temp_mass == NULL) {
 		fprintf(stderr, "Error while allocating memory!");
 		free(particles);
@@ -111,29 +124,36 @@ int main(int argc, char** argv) {
 
 	MPI_Win mass_win;
 	MPI_Win pos_win;
-	MPI_Win_create(temp_mass, sizeof(double) * total_num_particles, sizeof(double), MPI_INFO_NULL, MPI_COMM_WORLD, &mass_win);
-	MPI_Win_create(temp_pos, sizeof(vector_t) * total_num_particles, sizeof(vector_t), MPI_INFO_NULL, MPI_COMM_WORLD, &pos_win);
+	MPI_CHECK(MPI_Win_create(temp_mass, sizeof(double) * total_num_particles, sizeof(double),
+	                         MPI_INFO_NULL, MPI_COMM_WORLD, &mass_win));
+	MPI_CHECK(MPI_Win_create(temp_pos, sizeof(vector_t) * total_num_particles, sizeof(vector_t),
+	                         MPI_INFO_NULL, MPI_COMM_WORLD, &pos_win));
 
-	MPI_Win_fence(0, mass_win);
-	MPI_Win_fence(0, pos_win);
-	for(int i = 1; i < num_ranks; i++) {
-		int target_rank = (rank + i) % num_ranks;
-		MPI_Get(temp_mass + rank_particles * target_rank, rank_particles, MPI_DOUBLE, target_rank, 
-				rank_particles * target_rank, rank_particles, MPI_DOUBLE, mass_win);
-		
-		MPI_Get(temp_pos + rank_particles * target_rank, rank_particles, MPI_DOUBLE, target_rank, 
-				rank_particles * target_rank, rank_particles, MPI_DOUBLE, pos_win);
+	MPI_CHECK(MPI_Win_fence(0, mass_win));
+	MPI_CHECK(MPI_Win_fence(0, pos_win));
+	for(int i = 0; i < num_ranks; i++) {
+		if(i == rank) {
+			continue;
+		}
+
+		MPI_CHECK(MPI_Get(temp_mass + rank_particles * i, rank_particles, MPI_DOUBLE, i,
+		                  rank_particles * i, rank_particles, MPI_DOUBLE, mass_win));
+
+		MPI_CHECK(MPI_Get(temp_pos + rank_particles * i, rank_particles, MPI_VECTOR_T, i,
+		                  rank_particles * i, rank_particles, MPI_VECTOR_T, pos_win));
 	}
-	MPI_Win_fence(0, mass_win);
-	MPI_Win_fence(0, pos_win);
+	MPI_CHECK(MPI_Win_fence(0, mass_win));
+	MPI_CHECK(MPI_Win_fence(0, pos_win));
+
+	// Update local particles with gathered data
 	for(int i = 0; i < total_num_particles; i++) {
 		particles[i].pos = temp_pos[i];
 		particles[i].mass = temp_mass[i];
 	}
-	MPI_Win_free(&mass_win);
-	MPI_Win_free(&pos_win);
-	free(temp_pos);
-	free(temp_mass);
+
+	MPI_CHECK(MPI_Win_free(&mass_win));
+	MPI_CHECK(MPI_Win_free(&pos_win));
+	printf("Rank %d came here without errors.\n", rank);
 
 #ifdef PRINT_SIM
 	if(rank == 0) {
@@ -149,7 +169,8 @@ int main(int argc, char** argv) {
 	}
 
 	MPI_Win force_win;
-	MPI_Win_create(total_forces, sizeof(vector_t) * total_num_particles, sizeof(vector_t), MPI_INFO_NULL, MPI_COMM_WORLD, &force_win);
+	MPI_CHECK(MPI_Win_create(total_forces, sizeof(vector_t) * total_num_particles, sizeof(vector_t),
+	                         MPI_INFO_NULL, MPI_COMM_WORLD, &force_win));
 
 	for(int t = 0; t < time_steps; t++) {
 		for(int outer = 0; outer < total_num_particles; outer++) {
@@ -162,15 +183,17 @@ int main(int argc, char** argv) {
 			}
 		}
 
-		MPI_Win_fence(0, force_win);
-		for(int i = 1; i < num_ranks; i++) {
-			int target_rank = (rank + i) % num_ranks;
-			MPI_Get(total_forces + rank_particles * target_rank, rank_particles, MPI_DOUBLE, target_rank, 
-					rank_particles * target_rank, rank_particles, MPI_DOUBLE, force_win);
+		MPI_CHECK(MPI_Win_fence(0, force_win));
+
+		for(int i = 0; i < num_ranks; i++) {
+			if(i == rank) {
+				continue;
+			}
+			MPI_CHECK(MPI_Get(total_forces + rank_particles * i, rank_particles, MPI_VECTOR_T, i,
+			                  rank_particles * i, rank_particles, MPI_VECTOR_T, force_win));
 		}
-		MPI_Win_fence(0, force_win);
-		MPI_Allgather(total_forces + (rank_particles * rank), rank_particles, MPI_VECTOR_T,
-		              total_forces, rank_particles, MPI_VECTOR_T, MPI_COMM_WORLD);
+		return EXIT_FAILURE;
+		MPI_CHECK(MPI_Win_fence(0, force_win));
 
 		// update all particles
 		for(int i = 0; i < total_num_particles; i++) {
@@ -193,9 +216,11 @@ int main(int argc, char** argv) {
 	}
 #endif
 
-	MPI_Win_free(&force_win);
+	MPI_CHECK(MPI_Win_free(&force_win));
 	free(total_forces);
 	free(particles);
+	free(temp_pos);
+	free(temp_mass);
 	MPI_Type_free(&MPI_VECTOR_T);
 	MPI_Finalize();
 	return EXIT_SUCCESS;

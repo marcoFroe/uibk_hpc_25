@@ -5,7 +5,7 @@ CFLAGS=-std=gnu11 -Wall -Wextra -Wpedantic -Ofast -lm -DPRINT_SIM
 SRC=$(wildcard *.c)
 TARGETS=$(SRC:.c=)
 
-.PHONY: all clean
+.PHONY: all clean debug
 
 # Default target: build all executables
 all: $(TARGETS)
@@ -17,3 +17,6 @@ all: $(TARGETS)
 # Clean rule: remove all generated executables
 clean:
 	rm -f $(TARGETS) *.out
+
+debug: CFLAGS=-g -O0 -Wall -Wextra -Wpedantic -lm
+debug: all
