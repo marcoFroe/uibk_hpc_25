@@ -8,6 +8,8 @@
 
  Debugging was done using sanitizers for addresses and the `MUST` tool. Both without affect since the sanitizers referred to read/write operation by `MPI` intern functions to a `nil` address. The output of `MUST` once indicated a mismatch between communication calls, which is somehow the point when using RMA. Another time nothing at all was reported, neither that the program worked not that it failed. (*Spoiler: It failed.*) 
 
+ Also, a multiple AI tools where consulted to spot issues. All of them did not spot any relevant communication errors inside the code, they mainly hypothesized common errors with RMA that are not present in our implementation.
+
 
 ### Implementation:
  We used our naive parallel implementation from the last exercise sheet and replaced the `MPI_AllGather(...)` calls with `MPI_Get(...)` calls inside of windows guarded by `MPI_fence(...)`. 
