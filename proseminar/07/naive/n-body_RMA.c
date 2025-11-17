@@ -192,7 +192,6 @@ int main(int argc, char** argv) {
 			MPI_CHECK(MPI_Get(total_forces + rank_particles * i, rank_particles, MPI_VECTOR_T, i,
 			                  rank_particles * i, rank_particles, MPI_VECTOR_T, force_win));
 		}
-		return EXIT_FAILURE;
 		MPI_CHECK(MPI_Win_fence(0, force_win));
 
 		// update all particles
