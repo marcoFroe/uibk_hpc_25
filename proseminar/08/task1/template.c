@@ -64,8 +64,9 @@ int main(int argc, char** argv) {
 		// num_ranks, average_time_per_rank,total_bandwidth
 
 		// bandwidth asssumption: each rank writes and reads NUM_CHARS bytes NUM_ITERATIONS times
-		double total_bandwidth = NUM_CHARS * num_ranks * 2 * NUM_ITERATIONS / sum_time;
-		printf("%d,%lf,%lf\n", num_ranks, sum_time / (double)num_ranks, total_bandwidth);
+		double avg_time = sum_time / (double)num_ranks;
+		double total_bandwidth = NUM_CHARS * num_ranks * 2 * NUM_ITERATIONS / avg_time;
+		printf("%d,%lf,%lf\n", num_ranks, avg_time, total_bandwidth);
 	}
 
 	// clean up
