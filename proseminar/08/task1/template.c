@@ -4,7 +4,7 @@
 #include <time.h>
 
 // 6.4 million characters = 6.4MB of data per rank per iteration -> 10 iter -> 64MB per rank total
-#define NUM_CHARS 64 * 1000 * 100
+#define NUM_CHARS ((long long)(64 * 1000 * 100))
 #define NUM_ITERATIONS 10
 
 void generate_data(char* buffer, long size, int rank) {
@@ -61,12 +61,12 @@ int main(int argc, char** argv) {
 
 	if(rank == 0) {
 		// csv output format:
-		// num_ranks, average_time_per_rank,total_bandwidth
+		// num_ranks, average_time_per_rank,total_bandwidth(MB/s)
 
 		// bandwidth asssumption: each rank writes and reads NUM_CHARS bytes NUM_ITERATIONS times
 		double avg_time = sum_time / (double)num_ranks;
-		double total_bandwidth = NUM_CHARS * num_ranks * 2 * NUM_ITERATIONS / avg_time;
-		printf("%d,%lf,%lf\n", num_ranks, avg_time, total_bandwidth);
+		long double total_bandwidth = (NUM_CHARS * num_ranks * 2 * NUM_ITERATIONS) / avg_time;
+		printf("%d,%lf,%Lf\n", num_ranks, avg_time, total_bandwidth / 1000000.0L); // output in MB/s
 	}
 
 	// clean up
