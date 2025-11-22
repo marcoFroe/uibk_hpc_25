@@ -19,4 +19,4 @@ clean: clean_files
 	rm -f $(TARGETS) *.out
 	
 clean_files:	
-	cd $(SCRATCH)/hpc_08 && rm -f *.out
+	 (cd $(SCRATCH)/hpc_08; rm -f *.out; cd -)
