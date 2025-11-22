@@ -1,6 +1,6 @@
 # generated using ChatGPT
 CC=mpicc
-CFLAGS=-std=gnu11 -Wall -Wextra -Wpedantic -Ofast -lm
+CFLAGS=-std=gnu11 -Wall -Wextra -Wpedantic -Ofast
 
 SRC=$(wildcard *.c)
 TARGETS=$(SRC:.c=)
