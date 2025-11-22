@@ -3,8 +3,8 @@
 #include <stdlib.h>
 #include <time.h>
 
-// 64 million characters = 64MB of data per rank
-#define NUM_CHARS 64 * 1000 * 1000
+// 6.4 million characters = 6.4MB of data per rank per iteration -> 10 iter -> 64MB per rank total
+#define NUM_CHARS 64 * 1000 * 100
 #define NUM_ITERATIONS 10
 
 void generate_data(char* buffer, long size, int rank) {
@@ -40,16 +40,23 @@ int main(int argc, char** argv) {
 
 	generate_data(write_buffer, data_size, rank);
 
+	MPI_File mpi_file;
+	MPI_File_open(MPI_COMM_WORLD, "/scratch/cb761017/hpc_08/shared_non_collective.out",
+	              MPI_MODE_CREATE | MPI_MODE_RDWR | MPI_MODE_DELETE_ON_CLOSE, MPI_INFO_NULL,
+	              &mpi_file);
+
 	// time measurement
 	struct timespec start, end;
 	clock_gettime(CLOCK_MONOTONIC, &start);
 
-	fflush(stdout);
 	// Write-Read-Loop
 	for(int i = 0; i < NUM_ITERATIONS; i++) {
 		// write data
+		MPI_File_write_shared(mpi_file, write_buffer, data_size, MPI_CHAR, MPI_STATUS_IGNORE);
 		//  flush data to assert all data is written before reading
+		MPI_File_sync(mpi_file);
 		// read data
+		MPI_File_read_shared(mpi_file, read_buffer, data_size, MPI_CHAR, MPI_STATUS_IGNORE);
 	}
 
 	// time measurement
@@ -71,6 +78,7 @@ int main(int argc, char** argv) {
 	// clean up
 	free(write_buffer);
 	free(read_buffer);
+	MPI_File_close(&mpi_file);
 	MPI_Finalize();
 	return EXIT_SUCCESS;
 }

@@ -3,8 +3,8 @@
 #include <stdlib.h>
 #include <time.h>
 
-// 64 million characters = 64MB of data per rank
-#define NUM_CHARS 64 * 1000 * 1000
+// 6.4 million characters = 6.4MB of data per rank per iteration -> 10 iter -> 64MB per rank total
+#define NUM_CHARS 64 * 1000 * 100
 #define NUM_ITERATIONS 10
 
 void generate_data(char* buffer, long size, int rank) {
