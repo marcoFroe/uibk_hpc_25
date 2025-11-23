@@ -6,7 +6,7 @@
 // 6.4 million characters = 6.4MB of data per rank per iteration -> 10 iter -> 64MB per rank total
 #define NUM_CHARS ((long long)(64 * 1000 * 100))
 #define NUM_ITERATIONS 10
-#define FILE_NAME "/scratch/cb761032/hpc_08/hybrid.out"
+#define FILE_NAME "/scratch/cb761017/hpc_08/hybrid.out"
 
 void generate_data(char* buffer, long size, int rank) {
 	for(long i = 0; i < size; i++) {
