@@ -73,12 +73,12 @@ int main(int argc, char** argv) {
             MPI_Gather(rank_buffer, data_size, MPI_CHAR, comm_buffer, data_size, MPI_CHAR, 0, MPI_COMM_WORLD);
             // write data
             check_IO(total_data_size, fwrite(comm_buffer, sizeof(char), total_data_size, output));
-            //  flush data to assert all data is written before reading
-            fflush(output);
-
             if(i == NUM_ITERATIONS - 1) {
                 break;
             }
+
+            //  flush data to assert all data is written before reading
+            fflush(output);
             // reset file pointer to begin
             rewind(output);
             // read data

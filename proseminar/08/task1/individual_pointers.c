@@ -56,6 +56,9 @@ int main(int argc, char** argv) {
 		//instead of using seek and write, we could also use write_at. Not sure though if that would still count as using individual file pointers.
 		MPI_File_seek(mpi_file, rank * data_size * sizeof(char), MPI_SEEK_SET);
 		MPI_File_write(mpi_file, write_buffer, data_size, MPI_CHAR, MPI_STATUS_IGNORE);
+		if(i == NUM_ITERATIONS - 1) {
+			break;
+		}
 		//  flush data to assert all data is written before reading
 		MPI_File_sync(mpi_file);
 		// read data

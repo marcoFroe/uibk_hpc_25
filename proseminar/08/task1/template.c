@@ -48,6 +48,9 @@ int main(int argc, char** argv) {
 	// Write-Read-Loop
 	for(int i = 0; i < NUM_ITERATIONS; i++) {
 		// write data
+		if(i == NUM_ITERATIONS - 1) {
+			break;
+		}
 		//  flush data to assert all data is written before reading
 		// read data
 	}

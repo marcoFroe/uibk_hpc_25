@@ -59,9 +59,11 @@ int main(int argc, char** argv) {
 	for(int i = 0; i < NUM_ITERATIONS; i++) {
 		// write data
 		fwrite(write_buffer, sizeof(char), data_size, rank_file);
+		if(i == NUM_ITERATIONS - 1) {
+			break;
+		}
 		//  flush data to assert all data is written before reading
 		fflush(rank_file);
-
 		// reset file pointer to begin
 		rewind(rank_file);
 		// read data

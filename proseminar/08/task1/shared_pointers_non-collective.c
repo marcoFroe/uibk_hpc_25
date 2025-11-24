@@ -53,6 +53,9 @@ int main(int argc, char** argv) {
 	for(int i = 0; i < NUM_ITERATIONS; i++) {
 		// write data
 		MPI_File_write_shared(mpi_file, write_buffer, data_size, MPI_CHAR, MPI_STATUS_IGNORE);
+		if(i == NUM_ITERATIONS - 1) {
+			break;
+		}
 		//  flush data to assert all data is written before reading
 		MPI_File_sync(mpi_file);
 		// reset file pointer to begin
