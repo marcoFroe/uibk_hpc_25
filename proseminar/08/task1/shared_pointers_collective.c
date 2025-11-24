@@ -40,6 +40,11 @@ int main(int argc, char** argv) {
 
 	generate_data(write_buffer, data_size, rank);
 
+	MPI_File mpi_file;
+	MPI_File_open(MPI_COMM_WORLD, "/scratch/cb761017/hpc_08/shared_collective.out",
+	              MPI_MODE_CREATE | MPI_MODE_RDWR | MPI_MODE_DELETE_ON_CLOSE, MPI_INFO_NULL,
+	              &mpi_file);
+
 	// time measurement
 	struct timespec start, end;
 	clock_gettime(CLOCK_MONOTONIC, &start);
@@ -48,8 +53,13 @@ int main(int argc, char** argv) {
 	// Write-Read-Loop
 	for(int i = 0; i < NUM_ITERATIONS; i++) {
 		// write data
+		MPI_File_write_ordered(mpi_file, write_buffer, data_size, MPI_CHAR, MPI_STATUS_IGNORE);
 		//  flush data to assert all data is written before reading
+		MPI_File_sync(mpi_file);
 		// read data
+		MPI_File_seek_shared(mpi_file, 0, MPI_SEEK_SET);
+		MPI_File_read_ordered(mpi_file, read_buffer, data_size, MPI_CHAR, MPI_STATUS_IGNORE);
+		MPI_File_seek_shared(mpi_file, 0, MPI_SEEK_SET);
 	}
 
 	// time measurement
@@ -72,6 +82,7 @@ int main(int argc, char** argv) {
 	// clean up
 	free(write_buffer);
 	free(read_buffer);
+	MPI_File_close(&mpi_file);
 	MPI_Finalize();
 	return EXIT_SUCCESS;
 }
