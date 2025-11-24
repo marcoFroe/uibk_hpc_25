@@ -3,13 +3,13 @@ import matplotlib.pyplot as plt
 
 def plot_time_vs_num_ranks(csv_file, output_file=None):
     """
-    Plot average execution time versus number of ranks, grouped by type.
+    Plot total bandwidth versus number of ranks, grouped by type.
 
     Parameters
     ----------
     csv_file : str
         Path to the CSV file containing columns:
-        [num_ranks, average_time, type]
+        [num_ranks, total_bandwidth, type]
     output_file : str, optional
         Path to save the output plot. If None, the plot is only displayed.
     """
@@ -17,13 +17,13 @@ def plot_time_vs_num_ranks(csv_file, output_file=None):
     df = pd.read_csv(csv_file)
 
     # Validate required columns
-    required_cols = {'type', 'num_ranks', 'average_time'}
+    required_cols = {'type', 'num_ranks', 'total_bandwidth'}
     if not required_cols.issubset(df.columns):
         raise ValueError(f"CSV file must contain columns: {required_cols}")
 
-    # Compute average time for duplicates
+    # Compute average bandwidth for duplicates
     avg_df = (
-        df.groupby(['type', 'num_ranks'], as_index=False)['average_time']
+        df.groupby(['type', 'num_ranks'], as_index=False)['total_bandwidth']
           .mean()
           .sort_values(['type', 'num_ranks'])
     )
@@ -34,15 +34,15 @@ def plot_time_vs_num_ranks(csv_file, output_file=None):
     for psize, group in avg_df.groupby('type'):
         ax.plot(
             group['num_ranks'],
-            group['average_time'],
+            group['total_bandwidth'],
             marker='o',
             label=f"{psize}"
         )
 
     # Formatting
-    ax.set_title("Average Time per Rank vs. Number of Ranks")
+    ax.set_title("Total Bandwidth vs. Number of Ranks")
     ax.set_xlabel("Number of Ranks")
-    ax.set_ylabel("Average Time per Rank (s)")
+    ax.set_ylabel("Total Bandwidth (MB/s)")
     ax.set_yscale("log")
 
     # Use the actual num_ranks values as x-ticks (sorted, formatted as integers if appropriate)
@@ -61,4 +61,4 @@ def plot_time_vs_num_ranks(csv_file, output_file=None):
 
 
 if __name__ == '__main__':
-    plot_time_vs_num_ranks("../08/task1/task1.csv", "../08/submission/ranks_vs_time-per-rank.png")
+    plot_time_vs_num_ranks("../08/task1/task1.csv", "../08/submission/ranks_vs_bandwidth.png")
