@@ -27,7 +27,7 @@ Almost all major HPC hardware platforms have maximum job wall times of 24-72 hou
   - make sure to delete any generated files after you finished your benchmark runs
   - ensure that writes have fully completed (i.e. data has been written to the storage medium) before reading it again
 - Illustrate the data in appropriate figures and discuss them. What can you observe?
-- Insert the achieved bandwidth for 64 MB per rank and 96 ranks into the comparison spreadsheet: https://docs.google.com/spreadsheets/d/1Xjs056g0HRjZwNLuCOxe6xtEH1Yk9u6t6UL-xPfPJKA
+- Insert the achieved bandwidth for 64 MB per rank and 96 ranks into the comparison spreadsheet: <https://docs.google.com/spreadsheets/d/1Xjs056g0HRjZwNLuCOxe6xtEH1Yk9u6t6UL-xPfPJKA>
 
 ## Exercise 2 (1 Point)
 
@@ -37,4 +37,6 @@ This exercise consists in implementing a hybrid version of Exercise 1.
 
 - Provide a fifth implementation that makes rank 0 responsible for writing/reading all data to/from a single file, hence requiring `MPI_Gather()` and `MPI_Scatter()` operations. Again, you can choose to use non-MPI means for the I/O operations.
 - Compare the performance to your solution of Exercise 1. What can you observe?
-- Insert the achieved bandwidth for 64 MB per rank and 96 ranks into the comparison spreadsheet: https://docs.google.com/spreadsheets/d/1Xjs056g0HRjZwNLuCOxe6xtEH1Yk9u6t6UL-xPfPJKA
+- Insert the achieved bandwidth for 64 MB per rank and 96 ranks into the comparison spreadsheet: <https://docs.google.com/spreadsheets/d/1Xjs056g0HRjZwNLuCOxe6xtEH1Yk9u6t6UL-xPfPJKA>
+
+## ONLY MEASURE THE COMPUTATIONAL PARTS
