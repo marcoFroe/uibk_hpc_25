@@ -6,6 +6,6 @@ all: mandelbrot_seq
 
 .PHONY: clean
 clean:
-	$(RM) mandelbrot_seq mandelbrot_seq.png
+	$(RM) mandelbrot_seq mandelbrot_seq.png *.out
 
 mandelbrot_seq: mandelbrot_seq.c
