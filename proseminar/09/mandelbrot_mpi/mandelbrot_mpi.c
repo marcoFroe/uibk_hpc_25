@@ -26,7 +26,7 @@ typedef struct {
 
 void HSVToRGB(double H, double S, double V, double* R, double* G, double* B);
 void calcMandelbrot(uint8_t* image, int sizeX, int sizeY, int rank, int global_sizeY);
-GatherInfo setupGatherV(int global_X, int global_Y, int num_ranks);
+GatherInfo setupDistCalls(int global_X, int global_Y, int num_ranks);
 void mem_checker(void* ptr);
 
 int main(int argc, char** argv) {
@@ -76,7 +76,7 @@ int main(int argc, char** argv) {
 
 	GatherInfo info;
 	if(rank == 0) {
-		info = setupGatherV(global_sizeX, global_sizeY, num_ranks);
+		info = setupDistCalls(global_sizeX, global_sizeY, num_ranks);
 	}
 
 	double sum_time = 0;
@@ -197,7 +197,7 @@ void HSVToRGB(double H, double S, double V, double* R, double* G, double* B) {
 	}
 }
 
-GatherInfo setupGatherV(int global_X, int global_Y, int num_ranks) {
+GatherInfo setupDistCalls(int global_X, int global_Y, int num_ranks) {
 	GatherInfo info;
 	info.recvcounts = malloc(num_ranks * sizeof(int));
 	info.displs = malloc(num_ranks * sizeof(int));
