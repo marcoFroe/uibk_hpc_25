@@ -9,7 +9,7 @@ The naive parallel implementation was done by splitting the image in the y-axis.
 
 In the following plot a scatter of the different runtimes of each rank are shown. It contains multiple runs with for each number of ranks which all were done with the same image size of `3840x2160`. 
 
-![Load Imbalance](./load-imbalance.png)
+![Load Imbalance](./load-imbalance_plain_mpi.png)
 
 Non surprisingly the variation in runtime for the individual ranks increases with growing number of ranks. In the following table the relative differences between lowest and fastest measurement are shown using the following formula: $\text{slow}_\% = \frac{\max-\min}{\min}*100$
 
