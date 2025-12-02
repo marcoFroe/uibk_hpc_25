@@ -3,6 +3,8 @@
 **Team:** Marco Fröhlich
 
 # Task 1
+## Sequential Implementation
+No changes were made to the sequential version. The total runtime (`/usr/bin/time`) for the given resolution is $\sim 87.06$ seconds. 
 
 ## Naive parallel
 The naive parallel implementation was done by splitting the image in the y-axis. Each ranks gets `size_y / num_ranks` rows assigned and `rank 0` takes the remainder. Then each rank individually computes the Mandelbrot numbers and at the end a `MPI_Gatherv(...)` collects the results and computes the final image. Time measurements only enclose the `calcMandelbrot(...)` method call.
@@ -23,6 +25,7 @@ Non surprisingly the variation in runtime for the individual ranks increases wit
 | 96              | 0.0019 | 2.02   | 10,531 %         | 2.0181           |
 
 Interestingly the variance has a peak somewhere between 48 and 96 ranks and does not increase with increasing size of ranks.
+The total runtime (`/usr/bin/time`) with 96 ranks and the given resolution is $\sim 3.69$ seconds. 
 
 ## Improvement Ideas
 1. **Random Distribution:**
@@ -51,7 +54,7 @@ In terms of load imbalance this implementation is a significant improvement, as 
 | 96              | 0.857  | 0.919  | 0.072 %          | 0.062            |
 
 ### Conclusion
-This implementation is not ideal since the data preparation, distribution and collection take a lot of time compared to the actual computation time. But for bigger workloads, where this can be done in advance and as an example each ranks reads it data-load from a file, the work load for each rank is nearly identical. So this is a viable option for load-balancing of independent problems.
+This implementation is not ideal since the data preparation, distribution and collection take a lot of time compared to the actual computation time. But for bigger workloads, where this can be done in advance and as an example each ranks reads it data-load from a file, the work load for each rank is nearly identical. So this is a viable option for load-balancing of independent problems. In terms of total runtime (`/usr/bin/time`) with 96 ranks and the given resolution this version is slightly slower than the naive one with $\sim 3.99$ seconds.
 
 
 ## Multiple Smaller Chunks
@@ -76,4 +79,4 @@ In terms of load imbalance this implementation is a significant improvement, as 
 
 
 ### Conclusion
-This implementation is not ideal since the data synchronization take a lot more time compared to the actual computation time or the random version. It might be possible to compute all the splits beforehand and not as in this implementation at runtime inside the computation loop. Further it might be possible to cut down on the required synchronization steps and do it once at the end. But in terms of the load imbalance this is also a viable option.
+This implementation is not ideal since the data synchronization take a lot more time compared to the actual computation time or the random version. It might be possible to compute all the splits beforehand and not as in this implementation at runtime inside the computation loop. Further it might be possible to cut down on the required synchronization steps and do it once at the end. But in terms of the load imbalance this is also a viable option. In terms of total runtime (`/usr/bin/time`) with 96 ranks and the given resolution this version is slightly slower than the naive and random one with $\sim 4.45$ seconds.
