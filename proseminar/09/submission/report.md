@@ -28,8 +28,8 @@ Interestingly the variance has a peak somewhere between 48 and 96 ranks and does
 1. **Random Distribution:**
 Instead of giving each rank a continuous chunk of data, it gets a random selection of points to work with. This is possible since the computation is not dependent on neighboring entities. Hopefully statistics are then in our favor and the load gets balanced since all ranks get an even amount of expensive and cheap points.
 
-2. TBA by Lilly.
-
+2. **Multiple Smaller Chunks:**
+Instead of assigning one continuous chunk of data per rank, each chunk gets smaller data segments and the whole computation is done in multiple passes. This possibly greatly increases the communication overhead, since multiple synchronization steps are required.
 
 # Task 2
 ## Random Distribution
@@ -54,4 +54,22 @@ In terms of load imbalance this implementation is a significant improvement, as 
 This implementation is not ideal since the data preparation, distribution and collection take a lot of time compared to the actual computation time. But for bigger workloads, where this can be done in advance and as an example each ranks reads it data-load from a file, the work load for each rank is nearly identical. So this is a viable option for load-balancing of independent problems.
 
 
-## TBA by Lilly
+## Multiple Smaller Chunks
+This optimization works by splitting the whole computation space into multiple chunks, 4 in this case. Those subspaces then get distributed onto the individual ranks for computation. The approach increases the synchronization steps needed and with that the workload of rank 0 grows. The implementation recycles a lot of the previous optimization, namely the changes made to the data structures used.
+
+In the following plot a scatter of the different runtimes of each rank are shown. It contains multiple runs with for each number of ranks which all were done with the same image size of `3840x2160`. 
+
+![Load Imbalance](./load-imbalance_opt-1.png)
+
+
+In terms of load imbalance this implementation is a significant improvement, as appeared from the plot above. The variations in runtime for the `calcMandelbrot(...)` method are tiny.  In the following table the relative and absolute differences between lowest and fastest measurement are shown using the following formula: $\text{slow}_\% = \frac{\max-\min}{\min}*100$.
+
+
+| number of ranks | min[s] | max[s] | $\text{slow}_\%$ | absolute diff[s] |
+|-----------------|--------|--------|------------------|------------------|
+| 2               | 41.3   | 41.6   | 0.72 %           | 0.01             |
+| 6               | 14.3   | 14.4   | 0.7 %            | 25.6             |
+| 12              | 7.14   | 7.24   | 0.014 %          | 0.1              |
+| 24              | 3.56   | 3.65   | 0.025 %          | 0.09             |
+| 48              | 1.76   | 1.87   | 0.063 %          | 0.11             |
+| 96              | 0.857  | 0.919  | 0.072 %          | 0.062            |
