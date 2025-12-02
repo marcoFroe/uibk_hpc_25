@@ -1,10 +1,10 @@
 # Exercise Sheet 09
 
-**Team:** Marco Fröhlich and Lilly Schönherr
+**Team:** Marco Fröhlich
 
 # Task 1
 
-## Naive paralell
+## Naive parallel
 The naive parallel implementation was done by splitting the image in the y-axis. Each ranks gets `size_y / num_ranks` rows assigned and `rank 0` takes the remainder. Then each rank individually computes the Mandelbrot numbers and at the end a `MPI_Gatherv(...)` collects the results and computes the final image. Time measurements only enclose the `calcMandelbrot(...)` method call.
 
 In the following plot a scatter of the different runtimes of each rank are shown. It contains multiple runs with for each number of ranks which all were done with the same image size of `3840x2160`. 
@@ -39,12 +39,12 @@ In the following plot a scatter of the different runtimes of each rank are shown
 
 ![Load Imbalance](./load-imbalance_opt-1.png)
 
-In terms of load imbalance this implementation is a significant improvement, as appeared from the plot above. The variations in runtime for the `calcMandelbrot(...)` method are tiny.  In the following table the relative and absolute differences between lowest and fastest measurement are shown using the following formula: $\text{slow}_\% = \frac{\max-\min}{\min}*100$.
+In terms of load imbalance this implementation is a significant improvement, as apparent from the plot above. The variations in runtime for the `calcMandelbrot(...)` method are tiny.  In the following table the relative and absolute differences between lowest and fastest measurement are shown using the following formula: $\text{slow}_\% = \frac{\max-\min}{\min}*100$.
 
 | number of ranks | min[s] | max[s] | $\text{slow}_\%$ | absolute diff[s] |
 |-----------------|--------|--------|------------------|------------------|
 | 2               | 41.3   | 41.6   | 0.72 %           | 0.01             |
-| 6               | 14.3   | 14.4   | 0.7 %            | 25.6             |
+| 6               | 14.3   | 14.4   | 0.7 %            | 0.1              |
 | 12              | 7.14   | 7.24   | 0.014 %          | 0.1              |
 | 24              | 3.56   | 3.65   | 0.025 %          | 0.09             |
 | 48              | 1.76   | 1.87   | 0.063 %          | 0.11             |
@@ -59,17 +59,21 @@ This optimization works by splitting the whole computation space into multiple c
 
 In the following plot a scatter of the different runtimes of each rank are shown. It contains multiple runs with for each number of ranks which all were done with the same image size of `3840x2160`. 
 
-![Load Imbalance](./load-imbalance_opt-1.png)
+![Load Imbalance](./load-imbalance_opt-2.png)
 
 
-In terms of load imbalance this implementation is a significant improvement, as appeared from the plot above. The variations in runtime for the `calcMandelbrot(...)` method are tiny.  In the following table the relative and absolute differences between lowest and fastest measurement are shown using the following formula: $\text{slow}_\% = \frac{\max-\min}{\min}*100$.
+In terms of load imbalance this implementation is a significant improvement, as apparent from the plot above. The variations in runtime for the `calcMandelbrot(...)` method are tiny.  In the following table the relative and absolute differences between lowest and fastest measurement are shown using the following formula: $\text{slow}_\% = \frac{\max-\min}{\min}*100$.
 
 
 | number of ranks | min[s] | max[s] | $\text{slow}_\%$ | absolute diff[s] |
 |-----------------|--------|--------|------------------|------------------|
-| 2               | 41.3   | 41.6   | 0.72 %           | 0.01             |
-| 6               | 14.3   | 14.4   | 0.7 %            | 25.6             |
-| 12              | 7.14   | 7.24   | 0.014 %          | 0.1              |
-| 24              | 3.56   | 3.65   | 0.025 %          | 0.09             |
-| 48              | 1.76   | 1.87   | 0.063 %          | 0.11             |
-| 96              | 0.857  | 0.919  | 0.072 %          | 0.062            |
+| 2               | 54.1   | 54.6   | 0.92 %           | 0.5              |
+| 6               | 23.1   | 23.1   | 0 %              | 0.0              |
+| 12              | 12.0   | 12.0   | 0 %              | 0.0              |
+| 24              | 6.31   | 6.34   | 0.48 %           | 0.03             |
+| 48              | 3.67   | 3.72   | 1.36 %           | 0.05             |
+| 96              | 2.65   | 2.98   | 12.45 %          | 0.33             |
+
+
+### Conclusion
+This implementation is not ideal since the data synchronization take a lot more time compared to the actual computation time or the random version. It might be possible to compute all the splits beforehand and not as in this implementation at runtime inside the computation loop. Further it might be possible to cut down on the required synchronization steps and do it once at the end. But in terms of the load imbalance this is also a viable option.
