@@ -38,7 +38,7 @@ typedef struct {
 
 void HSVToRGB(double H, double S, double V, double* R, double* G, double* B);
 void calcMandelbrot(cell_t* cells, int length, int global_x, int global_y);
-DistInfo setupDistCalls(int global_X, int global_Y, int num_ranks);
+void setupDistCalls(int total_elements, int num_ranks, DistInfo* info);
 void mem_checker(void* ptr);
 cell_t* prepare_data(int sizeX, int sizeY);
 void shuffle_array(cell_t* cells, int length);
@@ -85,7 +85,8 @@ int main(int argc, char** argv) {
 	MPI_Datatype MPI_Cells_t;
 	create_mpi_type(&MPI_Cells_t);
 
-	DistInfo info = setupDistCalls(global_sizeX, global_sizeY, num_ranks);
+	DistInfo info;
+	setupDistCalls(global_sizeX * global_sizeY, num_ranks, &info);
 
 	MPI_Scatterv(global_cells, info.recvcounts, info.displs, MPI_Cells_t, local_cells, local_elems,
 	             MPI_Cells_t, 0, MPI_COMM_WORLD);
@@ -219,27 +220,22 @@ void HSVToRGB(double H, double S, double V, double* R, double* G, double* B) {
 	}
 }
 
-DistInfo setupDistCalls(int global_X, int global_Y, int num_ranks) {
-	DistInfo info;
-	info.recvcounts = malloc(num_ranks * sizeof(int));
-	info.displs = malloc(num_ranks * sizeof(int));
+void setupDistCalls(int total_elements, int num_ranks, DistInfo* info) {
+	info->recvcounts = malloc((size_t)num_ranks * sizeof(int));
+	info->displs = malloc((size_t)num_ranks * sizeof(int));
+	mem_checker(info->recvcounts);
+	mem_checker(info->displs);
 
-	mem_checker(info.recvcounts);
-	mem_checker(info.displs);
+	int base = total_elements / num_ranks;
+	int rem = total_elements % num_ranks;
 
 	int offset = 0;
-
 	for(int r = 0; r < num_ranks; r++) {
-		int sizeY = global_Y / num_ranks;
-		if(r == 0) {
-			sizeY += global_Y % num_ranks;
-		}
-
-		info.recvcounts[r] = global_X * sizeY;
-		info.displs[r] = offset;
-		offset += info.recvcounts[r];
+		int count = base + (r < rem ? 1 : 0);
+		info->recvcounts[r] = count;
+		info->displs[r] = offset;
+		offset += count;
 	}
-	return info;
 }
 
 void mem_checker(void* ptr) {
