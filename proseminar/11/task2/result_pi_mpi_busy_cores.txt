@@ -1,0 +1,35 @@
+
+ Performance counter stats for 'system wide':
+
+             58.60 Joules power/energy-pkg/                                                     
+
+       5.889505328 seconds time elapsed
+
+
+ Performance counter stats for 'system wide':
+
+             58.44 Joules power/energy-pkg/                                                     
+
+       5.872013496 seconds time elapsed
+
+
+ Performance counter stats for 'system wide':
+
+             63.79 Joules power/energy-pkg/                                                     
+
+       6.429852858 seconds time elapsed
+
+
+ Performance counter stats for 'system wide':
+
+             59.40 Joules power/energy-pkg/                                                     
+
+       6.000221748 seconds time elapsed
+
+
+ Performance counter stats for 'system wide':
+
+             60.10 Joules power/energy-pkg/                                                     
+
+       6.028360737 seconds time elapsed
+
