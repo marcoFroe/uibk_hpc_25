@@ -37,7 +37,7 @@ int main(int argc, char* argv[]) {
             }
         }
         inside = (inside / n) * 4;
-        printf("Computed value for pi with %d ranks and %d samples: %f\n", n_ranks, n, total_inside);
+        printf("Computed value for pi with %d ranks and %d samples: %f\n", n_ranks, n, inside);
     }
     
     MPI_Barrier(MPI_COMM_WORLD);
