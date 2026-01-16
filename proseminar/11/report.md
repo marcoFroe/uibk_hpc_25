@@ -8,6 +8,7 @@
 - **OpenMPI:** Version 4.1.6
 
 # Task 1
+=========
 ### amd_energy and forks of it
 - source: https://github.com/amd/amd_energy
 - tool that exposes the energy counters reported by RAPL
@@ -24,7 +25,7 @@
 - can be used to analyze performance counters related to energy and power
 - support depends on system
 - for my system I have available:
-    - power/energy-pkg: socket energy consumption -> includes memory controller, PCIe controller, etc.
+    - power/energy-pkg: socket energy consumption $\rightarrow$ includes memory controller, PCIe controller, etc.
     - power_core/energy_core: energy consumption of cores only
 
 ### likwid-powermeter
@@ -52,7 +53,8 @@ We ran our Monte Carlo Pi computation with 8 cores and a problem size of 1500000
 Our measured time and energy consumption were relatively stable with little deviations between the different runs of the same configuration. When looking at the different run configurations, we can see that oversubscribing has a strong negative effect on the overall runtime and energy consumption, nearly doubling the wall time when doubling the number of tasks. Interestingly, the average power consumption does not increase but does in fact slightly decrease for both oversubscribing versions. When comparing busy waiting to yielding, the yielding version are slightly more efficient in their energy usage when compared to their counterparts using busy waiting, but the difference is much smaller than one might expect. When it comes to the measured wall time there is no significant difference between the two versions. This is rather surprising as busy waiting should have a much stronger effect on the runtime of a program such as ours where only one rank actually has any work to do. 
 
 # Task 3
-The system we tested on supports CPU core clock frequencies between 1400 MHz and 2300 MHz. To set a specific CPU core clock frequency we used the command `sudo cpupower frequency-set -f <clock_freq>`. Interestingly, the CPU core clock frequencies that were measured with `lscpu` often were much higher than the ones we specified. They even exceeded the theoretical upper bound for CPU core clock frequencies that should have been possibl for the given hardware, reaching up to 3200 MHz.
+=========
+The system we tested on supports CPU core clock frequencies between 1400 MHz and 2300 MHz. To set a specific CPU core clock frequency we used the command `sudo cpupower frequency-set -f <clock_freq>`. Interestingly, the CPU core clock frequencies that were measured with `lscpu` often were much higher than the ones we specified. They even exceeded the theoretical upper bound for CPU core clock frequencies that should have been possible for the given hardware, reaching up to 3200 MHz.
 
 | Specified frequency [MHz] | Measured Frequency [MHz] | Average Energy Consumption [J] |
 |---------------------------|--------------------------|--------------------------------|
